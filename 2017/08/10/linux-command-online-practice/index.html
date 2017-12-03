@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="背景最近公司运维部门同学联合我们业务部门举行了一场线上实际服务器问题排查演练，其旨在提高我们每个开发人员针对linux中常用的一些命令的使用熟练程度，运维同学出的题都是非常具有代表性，从这次实际的演练中，我们每个人学习到了很多关于多个linux命令综合灵活运用的知识，以下是我们这次的实践演练，分享给大家，一起学习！
+实践1有一台linux服务器192.168.1.1的sshd的监听端口是22，如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux线上命令实战演练">
+<meta property="og:url" content="http://www.jumpbyte.cn/2017/08/10/linux-command-online-practice/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="背景最近公司运维部门同学联合我们业务部门举行了一场线上实际服务器问题排查演练，其旨在提高我们每个开发人员针对linux中常用的一些命令的使用熟练程度，运维同学出的题都是非常具有代表性，从这次实际的演练中，我们每个人学习到了很多关于多个linux命令综合灵活运用的知识，以下是我们这次的实践演练，分享给大家，一起学习！
+实践1有一台linux服务器192.168.1.1的sshd的监听端口是22，如何">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux线上命令实战演练">
+<meta name="twitter:description" content="背景最近公司运维部门同学联合我们业务部门举行了一场线上实际服务器问题排查演练，其旨在提高我们每个开发人员针对linux中常用的一些命令的使用熟练程度，运维同学出的题都是非常具有代表性，从这次实际的演练中，我们每个人学习到了很多关于多个linux命令综合灵活运用的知识，以下是我们这次的实践演练，分享给大家，一起学习！
+实践1有一台linux服务器192.168.1.1的sshd的监听端口是22，如何">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>linux线上命令实战演练 | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-linux-command-online-practice" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/10/linux-command-online-practice/" class="article-date">
+      <time datetime="2017-08-10T10:34:58.000Z" itemprop="datePublished">2017-08-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux线上命令实战演练
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近公司运维部门同学联合我们业务部门举行了一场线上实际服务器问题排查演练，其旨在提高我们每个开发人员针对linux中常用的一些命令的使用熟练程度，运维同学出的题都是非常具有代表性，从这次实际的演练中，我们每个人学习到了很多关于多个linux命令综合灵活运用的知识，以下是我们这次的实践演练，分享给大家，一起学习！</p>
+<h3 id="实践1"><a href="#实践1" class="headerlink" title="实践1"></a>实践1</h3><p>有一台linux服务器192.168.1.1的sshd的监听端口是22，如何统计192.168.1.1的sshd服务各种状态（TIME_WAIT/CLOSE_WAIT/ESTABLISHED）的连接数，以便快速定位问题</p>
+<p>实践目的：了解机器连接数情况，便于排查问题<br><a id="more"></a></p>
+<h4 id="参考实践"><a href="#参考实践" class="headerlink" title="参考实践"></a>参考实践</h4><p>有两种实践方式</p>
+<ol>
+<li>第一种<pre><code class="shell">netstat -n | grep 192.168.1.1:22|awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}’
+</code></pre>
+</li>
+<li>第二种<pre><code class="shell">netstat –lnpta|grep ssh|egrep “TIME_WAIT| CLOSE_WAIT| ESTABLISHED”
+</code></pre>
+</li>
+</ol>
+<h4 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h4><pre><code class="shell">netstat常见参数
+-a (all)显示所有选项，默认不显示LISTEN相关
+-t (tcp)仅显示tcp相关选项
+-u (udp)仅显示udp相关选项
+-n 拒绝显示别名，能显示数字的全部转化成数字。
+-l 仅列出有在 Listen (监听) 的服務状态
+-p 显示建立相关链接的程序名
+-r 显示路由信息，路由表
+-e 显示扩展信息，例如uid等
+-s 按各个协议进行统计
+-c 每隔一个固定时间，执行该netstat命令。
+</code></pre>
+<pre><code class="shell">AWK
+NF:支持记录域个数
+NR:已经读取的记录数
+</code></pre>
+<h3 id="实践2"><a href="#实践2" class="headerlink" title="实践2"></a>实践2</h3><p>192.168.1.1中/opt/log/dubbo-access-provider.2017-06-26.log.bz2   日志中，有192.168.1.2 关键字的数据有多少条<br>主要目的：当前线上日志文件统一要求以bz2 压缩之后保留在本机，当需要查看历史日志时，解压需要耗费大量时间，如何在不解压的情况下直接查看内容</p>
+<h4 id="参考实践-1"><a href="#参考实践-1" class="headerlink" title="参考实践"></a>参考实践</h4><p>有以下三种实践方式</p>
+<pre><code>bzcat /opt/log/dubbo-access-provider.2017-06-26.log.bz2 |grep 192.168.1.2|wc –l
+
+bzgrep 10.37.9.11 /opt/log/dubbo-access-provider.2017-06-26.log.bz2 |wc –l
+
+less /opt/log/dubbo-access-provider.2017-06-26.log.bz2|grep &#39;192.168.1.2&#39; |wc –l
+</code></pre><h3 id="实践3"><a href="#实践3" class="headerlink" title="实践3"></a>实践3</h3><p>打包192.168.1.1服务器的 /opt/web/order-feature 目录，排除掉目录中的logs 和 work两个目录,打包后的文件名格式：自己的邮箱前缀.tar.gz(例如：zhangsan.tar.gz)。打包好的文件存放在/opt/backup目录下</p>
+<p>主要目的：实际应用场景较为频繁，在项目代码需要打包迁移时，常常需要排除掉日志目录(如log目录)。</p>
+<h4 id="参考实践-2"><a href="#参考实践-2" class="headerlink" title="参考实践"></a>参考实践</h4><pre><code class="shell">tar -zcvf /opt/backup/yangjinan.tar.gz  \
+            –exclude /opt/web/order-feature/work  \ 
+            –exclude /opt/web/order-feature/logs   \
+            /opt/web/order-feature
+</code></pre>
+<h4 id="补充知识点-1"><a href="#补充知识点-1" class="headerlink" title="补充知识点"></a>补充知识点</h4><p>使用tar命令<br>主选项：<br>c 创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包。<br>x 从档案文件中释放文件。相当于拆包。<br>t 列出档案文件的内容，查看已经备份了哪些文件。<br>特别注意，在参数的下达中， c/x/t 仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。<br>辅助选项：<br>-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩或解压？ 一般格式为xx.tar.gz或xx. tgz<br>-j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2 压缩或解压？一般格式为xx.tar.bz2<br>-v ：压缩的过程中显示文件！这个常用<br>-f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加其他参数！<br>-p ：使用原文件的原来属性（属性不会依据使用者而变）<br>–exclude FILE：在压缩的过程中，不要将 FILE 打包！</p>
+<h3 id="实践4"><a href="#实践4" class="headerlink" title="实践4"></a>实践4</h3><p>查询192.168.1.1服务器运行服务的总线程数</p>
+<p>主要目的:当机器线程数超报警阀值时，能快速查出相关进程及线程信息</p>
+<h4 id="参考实践-3"><a href="#参考实践-3" class="headerlink" title="参考实践"></a>参考实践</h4><ul>
+<li>第一种方式<br>ps -eLf |wc –l</li>
+<li>第二种方式<br>pstree -p | wc –l</li>
+</ul>
+<h4 id="补充知识点-2"><a href="#补充知识点-2" class="headerlink" title="补充知识点"></a>补充知识点</h4><p>名称：ps<br>使用权限：所有使用者<br>使用方式：ps [options] [–help]<br>说明：显示瞬间行程 (process) 的动态<br>参数：ps的参数非常多, 在此仅列出几个常用的参数并大略介绍含义<br>-A    列出所有的进程<br>-w    显示加宽可以显示较多的资讯<br>-au    显示较详细的资讯<br>-aux    显示所有包含其他使用者的行程</p>
+<p>############################################################</p>
+<p>常用参数：</p>
+<p>-A 显示所有进程（等价于-e）(utility)<br>-a 显示一个终端的所有进程，除了会话引线<br>-N 忽略选择。<br>-d 显示所有进程，但省略所有的会话引线(utility)<br>-x 显示没有控制终端的进程，同时显示各个命令的具体路径。dx不可合用。（utility）<br>-p pid 进程使用cpu的时间<br>-u uid or username 选择有效的用户id或者是用户名<br>-g gid or groupname 显示组的所有进程。<br>U username 显示该用户下的所有进程，且显示各个命令的详细路径。如:ps U zhang;(utility)<br>-f 全部列出，通常和其他选项联用。如：ps -fa or ps -fx and so on.<br>-l 长格式（有F,wchan,C 等字段）<br>-j 作业格式<br>-o 用户自定义格式。<br>v 以虚拟存储器格式显示<br>s 以信号格式显示<br>-m 显示所有的线程<br>-H 显示进程的层次(和其它的命令合用，如：ps -Ha)（utility）<br>e 命令之后显示环境（如：ps -d e; ps -a e）(utility)<br>h 不显示第一行</p>
+<p>############################################################</p>
+<p>ps命令常用用法（方便查看系统进程）</p>
+<p>1）ps a 显示现行终端机下的所有程序，包括其他用户的程序。<br>2）ps -A 显示所有进程。<br>3）ps c 列出程序时，显示每个程序真正的指令名称，而不包含路径，参数或常驻服务的标示。<br>4）ps -e 此参数的效果和指定“A”参数相同。<br>5）ps e 列出程序时，显示每个程序所使用的环境变量。<br>6）ps f 用ASCII字符显示树状结构，表达程序间的相互关系。<br>7）ps -H 显示树状结构，表示程序间的相互关系。<br>8）ps -N 显示所有的程序，除了执行ps指令终端机下的程序之外。<br>9）ps s 采用程序信号的格式显示程序状况。<br>10）ps S 列出程序时，包括已中断的子程序资料。<br>11）ps -t&lt;终端机编号&gt; 　指定终端机编号，并列出属于该终端机的程序的状况。<br>12）ps u 　以用户为主的格式来显示程序状况。<br>13）ps x 　显示所有程序，不以终端机来区分。<br>最常用的方法是ps -aux,然后再利用一个管道符号名称：ps</p>
+<h3 id="实践5"><a href="#实践5" class="headerlink" title="实践5"></a>实践5</h3><p>找出192.168.1.1最大的文件名中包含log的文件，假设因为该文件导致了磁盘空间报警，并且该文件是某个正在运行的tomcat服务异常产生的日志，需要处理该文件（该文件可进行任意操作包括删除），以释放空间。请给出相关思路</p>
+<p>主要目的：磁盘空间问题为常见问题，需要定位哪些目录或者文件导致，并及时清理</p>
+<h4 id="参考实践-4"><a href="#参考实践-4" class="headerlink" title="参考实践"></a>参考实践</h4><ol>
+<li><p>df -h   + du -sh <em>|sort -rh 命令结合，定位出具体的占用空间最大的文件；或：<br> find /opt/ -type f -name “</em>log<em>“|xargs ls -lSh|more<br> du -a / | sort -rn | grep log | more<br> find / -name ‘</em>log*’ -size +1000M -exec du -h {} \;</p>
+</li>
+<li><p>假设找到的文件为a.log,echo “”&gt;a.log 将该文件清空，空间即可释放<br>很多同学直接rm -f a.log, 来处理。这样文件虽然删除，但是因tomcat服务仍在运行，会导致空间不能释放，此时需要重启tomcat才能将空间释放。</p>
+</li>
+</ol>
+<h3 id="实践6"><a href="#实践6" class="headerlink" title="实践6"></a>实践6</h3><p>提取192.168.1.1服务器上/opt/log/localhost_access.log-20170609(nginx访问日志)，访问前10的IP地址及访问次数</p>
+<p>主要目的：主要目的：cat,awk,uniq,sort,head命令结合使用，日常日志分析中用到的比较多</p>
+<h4 id="参考实践-5"><a href="#参考实践-5" class="headerlink" title="参考实践"></a>参考实践</h4><ol>
+<li>第一种</li>
+</ol>
+<pre><code class="shell">cat /opt/log/localhost_access.log-20170609|awk &#39;{print $2}&#39; | sort | uniq -c | sort -rn | head -n 10
+</code></pre>
+<ol>
+<li>第二种</li>
+</ol>
+<pre><code class="shell">cat localhost_access.log-20170609 | awk &#39;{a[$2]++}END{for(i in a) print i,a[i]}&#39;| sort -k2nr |head -10
+</code></pre>
+<h3 id="实践7"><a href="#实践7" class="headerlink" title="实践7"></a>实践7</h3><p>显示192.168.1.1  /etc/nginx.conf 文件中不以#号开头的行</p>
+<p>主要目的：了解grep /sed 的用法</p>
+<h4 id="参考实践-6"><a href="#参考实践-6" class="headerlink" title="参考实践"></a>参考实践</h4><ol>
+<li>第一种方式<br>sed -n  ‘/^[#]/!p’    /etc/nginx.conf</li>
+<li>第二种方式<br>sed -e ‘/^#/d’ /etc/nginx.conf</li>
+<li>第三种方式<br>grep -v “^#” /etc/nginx.conf</li>
+</ol>
+<h3 id="实践8"><a href="#实践8" class="headerlink" title="实践8"></a>实践8</h3><p>192.168.1.1磁盘IO异常如何排查，类似写入慢或当前使用率较高，请查出导致磁盘IO异常高的非java进程ID</p>
+<p>主要目的:查找占用磁盘IO服务名称及磁盘自身故障</p>
+<h4 id="参考实践-7"><a href="#参考实践-7" class="headerlink" title="参考实践"></a>参考实践</h4><ol>
+<li>iotop -o 查看当前正在写磁盘操作的所有服务进程id 、写入IO值、服务路径，可以通过相关参数找到对应的服务名称。</li>
+<li>如果此时各项写入指标都很低，基本没有大的写入操作，则需要排查磁盘自身。可以查看系统dmesg 或 cat /var/log/message 看看是否有相关的磁盘异常报错，同时可以在写入慢的磁盘上touch 一个空文件看看，是否磁盘故障导致无法写入。</li>
+</ol>
+<h3 id="实践9"><a href="#实践9" class="headerlink" title="实践9"></a>实践9</h3><p>某服务器CPU使用率达到99%，排查是哪个程序的哪个线程导致的高CPU</p>
+<h4 id="参考实践-8"><a href="#参考实践-8" class="headerlink" title="参考实践"></a>参考实践</h4><p><strong>实践思路：</strong> </p>
+<ol>
+<li>先找到耗CPU高的进程； </li>
+<li>找到耗CPU高的线程； </li>
+<li>找到耗CPU高的线程对应的业务代码；</li>
+</ol>
+<p><strong>具体操作</strong></p>
+<ol>
+<li><p>执行“top -c”命令，显示进程运行信息列表，键入大写P，按CPU使用率降序排列</p>
+</li>
+<li><p>如从步骤1中获取到进程PID为10765的进程，使用CPU资源最高30.9%；至此，已找到耗CPU最高的进程，进程PID为10765，后续命令中需要使用到</p>
+</li>
+<li><p>找出消耗CPU最高的线程，一个进程内有很多线程，执行“top -Hp 10765”，显示进程ID为10765的线程列表，键入大写P后，按CPU使用率降序排列</p>
+</li>
+<li><p>假设步骤3中，找到PID为10804的线程，CPU使用率最高；将线程ID(10804)按16进制展示，执行指令<code>printf &quot;%x\n&quot; 10804</code>（因java线程Id是以16进制显示），至此，找到了CPU使用率最高的线程ID为10804，并获取到10804的16进制标识：2a34</p>
+</li>
+<li><p>通过jstack检索到进程(进程ID=10765)中，最耗CPU的线程(线程ID=2a34)的线程栈信息； 执行指令<code>jstack 10765 | grep &quot;2a34&quot; -C5 --color</code></p>
+</li>
+<li>通过上面步骤假设找到了耗CPU高的线程对应的线程名称“AsyncLogger-1”，而这个线程名称是我们业务代码中给线程取的名称，现在就可以快速定位到业务代码了。</li>
+</ol>
+<p>tips:给线程取一个与业务处理相关的名称，对快速定位问题尤为重要</p>
+<h3 id="实践10"><a href="#实践10" class="headerlink" title="实践10"></a>实践10</h3><p>某java应用大量消耗内存，导致OutOfMemoryError</p>
+<h4 id="参考实践-9"><a href="#参考实践-9" class="headerlink" title="参考实践"></a>参考实践</h4><p><strong>实践思路：</strong></p>
+<ol>
+<li>什么对象消耗内存最大；</li>
+<li>是否创建了太多的线程；</li>
+<li>新生的、老年代现在内存使用情况，确认是不是整体内存分配太小了；</li>
+<li>实时查看新生的、老年代内存使用情况，GC情况</li>
+<li>代码层检查，是否有大对象创建？需要调用close()或dispose()来回收的资源是否回收了？</li>
+</ol>
+<p><strong>具体操作：</strong></p>
+<ul>
+<li>执行“jmap -histo:live 10765 | more”命令，以表格的方式显示存活对象的信息(已按对象所占bytes大小进行降序排列)：<br>其中，10765为进程ID，更多用法，通过“man jmap”寻求帮助。<blockquote>
+<p>tips：如果发现某类对象占用内存很大(几个G的大小)，很可能是有问题的。基本都是因为：该类对象创建太多，且一直未释放。比如：使用完IO资源后，未调用close()接口关闭、释放资源；又比如：消费者消费速度慢(或停止消费了)，而生产者不断往队列中投递任务，导致队列中任务累积过多，任务对象占用内存太多而产生OutOfMemoryError</p>
+</blockquote>
+</li>
+<li>执行“pstree -p 10765 | wc -l”，查看进程内的线程数,其中，10765为进程ID。<blockquote>
+<p>tips:每个线程需要分配线程栈内存，创建线程太多，可能导致OutOfMemoryError</p>
+</blockquote>
+</li>
+<li>执行“jmap -heap 10765”，查看堆(新生代、老年代)内存分配大小及使用情况</li>
+<li>执行“jstat -gc 10765 1000”，查看各个区内存使用情况及GC情况,其中，10765为进程ID，1000为数据刷新间隔的毫秒数<blockquote>
+<p>tips:具体字段含义，通过“man jstat”寻求帮助。主要查看：EC：Eden区容量，EU：Eden区已使用量，OC：Old区容量，OU：Old区已使用量；<br>YGC：YongGC次数，YGCT：YongGC耗时，FGC：FullGC次数，FGCT：FullGC耗时；</p>
+</blockquote>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2017-08-10, 10:34:58</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/08/10/linux-command-online-practice/" title="linux线上命令实战演练">http://www.jumpbyte.cn/2017/08/10/linux-command-online-practice/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2017/08/10/linux-command-online-practice/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/09/03/enriching-restful-services-swagger/">
+                    使用Swagger插件丰富增强RESTful服务
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践1"><span class="toc-number">2.</span> <span class="toc-text">实践1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践"><span class="toc-number">2.1.</span> <span class="toc-text">参考实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#补充知识点"><span class="toc-number">2.2.</span> <span class="toc-text">补充知识点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践2"><span class="toc-number">3.</span> <span class="toc-text">实践2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-1"><span class="toc-number">3.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践3"><span class="toc-number">4.</span> <span class="toc-text">实践3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-2"><span class="toc-number">4.1.</span> <span class="toc-text">参考实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#补充知识点-1"><span class="toc-number">4.2.</span> <span class="toc-text">补充知识点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践4"><span class="toc-number">5.</span> <span class="toc-text">实践4</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-3"><span class="toc-number">5.1.</span> <span class="toc-text">参考实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#补充知识点-2"><span class="toc-number">5.2.</span> <span class="toc-text">补充知识点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践5"><span class="toc-number">6.</span> <span class="toc-text">实践5</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-4"><span class="toc-number">6.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践6"><span class="toc-number">7.</span> <span class="toc-text">实践6</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-5"><span class="toc-number">7.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践7"><span class="toc-number">8.</span> <span class="toc-text">实践7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-6"><span class="toc-number">8.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践8"><span class="toc-number">9.</span> <span class="toc-text">实践8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-7"><span class="toc-number">9.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践9"><span class="toc-number">10.</span> <span class="toc-text">实践9</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-8"><span class="toc-number">10.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践10"><span class="toc-number">11.</span> <span class="toc-text">实践10</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考实践-9"><span class="toc-number">11.1.</span> <span class="toc-text">参考实践</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"linux线上命令实战演练　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/09/03/enriching-restful-services-swagger/" title="下一篇: 使用Swagger插件丰富增强RESTful服务">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="前言通常来说调用一个RESTful服务接口可以说是一个比较繁杂的事情,因为有很多非常低效的任务要去做。我们非常羡慕使用WS*/SOAP协议服务的人:他们可以很容易地基于正式的WSDL接口规范生成一个客户端API，这样大大的简化了服务的调用。在很长一段时间内REST世界中缺乏广泛的正式规范和生成工具。但是Swagger的出现改变了这种局面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Swagger插件丰富增强RESTful服务">
+<meta property="og:url" content="http://www.jumpbyte.cn/2016/09/03/enriching-restful-services-swagger/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="前言通常来说调用一个RESTful服务接口可以说是一个比较繁杂的事情,因为有很多非常低效的任务要去做。我们非常羡慕使用WS*/SOAP协议服务的人:他们可以很容易地基于正式的WSDL接口规范生成一个客户端API，这样大大的简化了服务的调用。在很长一段时间内REST世界中缺乏广泛的正式规范和生成工具。但是Swagger的出现改变了这种局面">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-9-3/35478687.jpg">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-9-3/92930277.jpg">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Swagger插件丰富增强RESTful服务">
+<meta name="twitter:description" content="前言通常来说调用一个RESTful服务接口可以说是一个比较繁杂的事情,因为有很多非常低效的任务要去做。我们非常羡慕使用WS*/SOAP协议服务的人:他们可以很容易地基于正式的WSDL接口规范生成一个客户端API，这样大大的简化了服务的调用。在很长一段时间内REST世界中缺乏广泛的正式规范和生成工具。但是Swagger的出现改变了这种局面">
+<meta name="twitter:image" content="http://oaefo3hoy.bkt.clouddn.com/16-9-3/35478687.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>使用Swagger插件丰富增强RESTful服务 | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-enriching-restful-services-swagger" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/03/enriching-restful-services-swagger/" class="article-date">
+      <time datetime="2016-09-03T14:04:44.000Z" itemprop="datePublished">2016-09-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Swagger插件丰富增强RESTful服务
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/essay/">随笔</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创翻译/">原创翻译</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通常来说调用一个RESTful服务接口可以说是一个比较繁杂的事情,因为有很多非常低效的任务要去做。我们非常羡慕使用WS*/SOAP协议服务的人:他们可以很容易地基于正式的WSDL接口规范生成一个客户端API，这样大大的简化了服务的调用。在很长一段时间内REST世界中缺乏广泛的正式规范和生成工具。但是Swagger的出现改变了这种局面<br><a id="more"></a></p>
+<h2 id="处理RESTful服务现存的问题"><a href="#处理RESTful服务现存的问题" class="headerlink" title="处理RESTful服务现存的问题"></a>处理RESTful服务现存的问题</h2><p>当涉及到调用RESTful服务时，你会遇到两个问题：</p>
+<ul>
+<li>首先要阅读并且理解RESTful服务接口文档</li>
+<li>使用费劲的RESTful服务，你必须创建一个HTTP请求，包括正确的HTTP方法,正确的HTTP头，URL使用正确的参数，在HTTP Body里使用正确的JSON，这些特别是在服务API的变化时,维护成本特别高</li>
+</ul>
+<p>当开发和维护一个RESTful服务时，你会遇到下面问题：</p>
+<ul>
+<li>必须手动再编写一个api文档</li>
+<li>当服务改变时，你必须兼顾同步更新api文档，这个过程是比较容易出现错误</li>
+</ul>
+<p>然而，Swagger就可以解决这些问题</p>
+<h2 id="使用Swagger"><a href="#使用Swagger" class="headerlink" title="使用Swagger"></a>使用Swagger</h2><p>Swagger的核心是一个用来描述RESTful服务规范的语言。但最重要的是，这个规范如同代码生成器和编辑器,提供了一个强大和积极成熟的生态系统工具,。这就是独特的卖点像WADL其他规范语言一样。</p>
+<p>在开发流程中，有两种方式使用<a href="http://swagger.io/getting-started/" target="_blank" rel="external">Swagger</a></p>
+<ul>
+<li>API优先</li>
+<li>服务优先</li>
+</ul>
+<h3 id="API优先"><a href="#API优先" class="headerlink" title="API优先"></a>API优先</h3><p>你可以先写你的Swagger API规范。在此基础上规范可以生成JAX-RS存根资源类和调用服务的客户端库。尽管可以利用<a href="http://editor.swagger.io/" target="_blank" rel="external">Swagger编辑器</a>,用来创建这个规格，但这是一个非常艰难的任务，你需要学习这个规范语言。</p>
+<p>然而,这是必须要做的，因为当你开始一个新项目涉及多个不同公司的团队时,你必须提交一个API规范。这样所有团队可以开始工作,不需要等待服务团队(例如通过生成一个服务的伪实现)</p>
+<p>在这有一个很棒的的工具<a href="http://swagger.io/writing-apis-with-the-swagger-inflector/" target="_blank" rel="external">swagger-inflector</a>。它简化了基于给定的swagge文件JAX-RS服务器的实现,不再有JAX-RS生成的步骤。swagger-inflector在运行时将请求重定向到你的业务逻辑。如果你不提供业务逻辑,将返回伪实现的数据。因此,swagger-inflector还可用于对于一个给定swagger文件进行模拟服务。</p>
+<h3 id="服务优先"><a href="#服务优先" class="headerlink" title="服务优先"></a>服务优先</h3><p>我更喜欢服务优先这种更加实际的方式，看下下面这工作流程图：<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-9-3/35478687.jpg" alt="使用Swagger服务开发优先流程图"></p>
+<h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><p>通常,你开始通过编写JAX-RS资源类开发RESTful服务。然后通过对资源类添加Swaggeer的注解为RESTful API提供额外的文档。大部分的Swaggeer相关注解以前缀“@Api*”开始。资源类最终会像如下的代码:</p>
+<pre><code class="java">@Api(value = &quot;customers&quot;, description = &quot;RESTful API to interact with customer resources.&quot;)
+@Path(&quot;customers&quot;)
+public class CustomerResource {
+    @Inject
+    private CustomerDAO dao;
+
+    @ApiOperation(value = &quot;Get all customers&quot;, notes = &quot;Get all customers matching the given search string.&quot;, responseContainer = &quot;List&quot;, response = Customer.class)
+    @GET
+    @Path(&quot;/&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List&lt;Customer&gt; getCustomers(
+            @ApiParam(value = &quot;The search string is used to find customer by their name. Not case sensetive.&quot;, required = false, defaultValue = &quot;&quot;) @QueryParam(&quot;search&quot;) String searchString,
+            @ApiParam(value = &quot;Limits the size of the result set&quot;, required = false, defaultValue = &quot;50&quot;) @QueryParam(&quot;limit&quot;) int limit) {
+        List&lt;Customer&gt; customers = dao.getCustomers(searchString, limit);
+        return customers;
+    }
+
+    @ApiOperation(value = &quot;Create a new customer&quot;, notes = &quot;Creates a new customer with the given name. The URL of the new customer is returned in the location header.&quot;)
+    @POST
+    @Path(&quot;/&quot;)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createEmployee(
+            @ApiParam(value = &quot;customer&#39;s name&quot;, required = true) String customerName)
+            throws URISyntaxException {
+        Customer customer = dao.createCustomer(customerName);
+
+        URI uri = createNewLocationURI(customer.getId());
+        Response response = Response.created(uri).build();
+        return response;
+    }
+}
+</code></pre>
+<p>现在我们可以让Swagger处理带注解的资源类。它将生成正式规范。典型的应该是基于你的API规范以相同步骤创建的一个HTML文档。有几种方法可以实现这它:</p>
+<ul>
+<li>可以在Maven构建过程中生成Swagger规范文档，这个可以通过我们的<a href="https://github.com/kongchen/swagger-maven-plugin" target="_blank" rel="external">swagger-maven-plugin</a>完成</li>
+<li>如果正在使用Dropwizard，可以使用其捆绑插件<a href="https://github.com/federecio/dropwizard-swagger" target="_blank" rel="external">dropwizard-swagger</a>。它会在服务类启动过程中自动生成Swagger规范并且都发布在特定的url下面。这种方式非常非常不错,因为这样可以确保规范和文档跟已发布的服务保持最新。除此之外，不需要关心如何发布规范和文档。</li>
+</ul>
+<p>下面是生成的API规范和我们的RESTful服务：</p>
+<pre><code class="yml">swagger: &quot;2.0&quot;
+info: {}
+basePath: &quot;/&quot;
+tags:
+- name: &quot;customers&quot;
+paths:
+  /customers:
+    get:
+      tags:
+      - &quot;customers&quot;
+      summary: &quot;Get all customers&quot;
+      description: &quot;Get all customers matching the given search string.&quot;
+      operationId: &quot;getCustomers&quot;
+      consumes:
+      - &quot;application/json&quot;
+      produces:
+      - &quot;application/json&quot;
+      parameters:
+      - name: &quot;search&quot;
+        in: &quot;query&quot;
+        description: &quot;The search string is used to find customer by their name. Not\
+          \ case sensetive.&quot;
+        required: false
+        type: &quot;string&quot;
+      - name: &quot;limit&quot;
+        in: &quot;query&quot;
+        description: &quot;Limits the size of the result set&quot;
+        required: false
+        type: &quot;integer&quot;
+        default: &quot;50&quot;
+        format: &quot;int32&quot;
+      responses:
+        200:
+          description: &quot;successful operation&quot;
+          schema:
+            type: &quot;array&quot;
+            items:
+              $ref: &quot;#/definitions/Customer&quot;
+    post:
+      tags:
+      - &quot;customers&quot;
+      summary: &quot;Creates a new customer&quot;
+      description: &quot;Creates a new customer with the given name. &quot;
+      operationId: &quot;createEmployee&quot;
+      consumes:
+      - &quot;application/json&quot;
+      parameters:
+      - in: &quot;body&quot;
+        name: &quot;body&quot;
+        description: &quot;customer&#39;s name&quot;
+        required: false
+        schema:
+          type: &quot;string&quot;
+      responses:
+        default:
+          description: &quot;successful operation&quot;
+</code></pre>
+<p>生成的文档，如图：<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-9-3/92930277.jpg" alt="生成的api文档"></p>
+<p>那么好处是什么呢？我们有了一个自动保持最新的API文档，文档是自动生成的，我们不需要手工去编写。另外，还提供了一个正式API规范标准。该规范可以用来生成一个客户端库(支持生成多个编程语言)，这是我们接下来要做的。</p>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>客户端希望使用我们的RESTful服务,可以使用我们发布的Swagger规范来生成客户端库。有以下几种方法来生成：</p>
+<p><strong>使用命令行工具</strong></p>
+<p>为此，我们可以使用<a href="https://github.com/swagger-api/swagger-codegen" target="_blank" rel="external">swagger-codegen</a>命令行工具。下面是一个使用它的命令示例：</p>
+<pre><code class="shell">java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://localhost:8080/swagger.json \
+  -l java \
+  -o samples/client/customer/java
+</code></pre>
+<p>上面示例的命令将生成一个完整的Maven项目，可以构建安装到我们自己的仓库中</p>
+<p><strong>使用Maven插件</strong></p>
+<p>然而,我建议通过<a href="https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin" target="_blank" rel="external">swagger-codegen-maven-plugin</a> maven插件在一个现有的项目执行生成操作。通过这种方式,我们可以维护自己项目的pom(而不是生成一个新的项目)，并且完全控制构建配置(SVN/Git位置,构件的仓库url)。这非常适合于一个典型的项目基础设施搭建。</p>
+<pre><code class="xml">&lt;properties&gt;
+    &lt;yaml.file&gt;${project.basedir}/src/main/resources/prozu-service.yaml&lt;/yaml.file&gt;
+    &lt;generated-sources-path&gt;${project.build.directory}/generated-sources&lt;/generated-sources-path&gt;
+    &lt;generated-sources-java-path&gt;main/java&lt;/generated-sources-java-path&gt;
+    &lt;version.swagger.codegen&gt;2.1.4&lt;/version.swagger.codegen&gt;
+    &lt;!-- TODO add the properties from target/generated-sources/pom.xml here --&gt;
+&lt;/properties&gt;
+&lt;dependencies&gt;
+    &lt;!-- TODO add the dependencies from target/generated-sources/pom.xml here --&gt;
+&lt;/dependencies&gt;
+
+&lt;build&gt;
+&lt;plugins&gt;
+    &lt;plugin&gt;
+        &lt;groupId&gt;io.swagger&lt;/groupId&gt;
+        &lt;artifactId&gt;swagger-codegen-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;${version.swagger.codegen}&lt;/version&gt;
+        &lt;configuration&gt;
+            &lt;inputSpec&gt;${yaml.file}&lt;/inputSpec&gt;
+            &lt;configOptions&gt;
+                &lt;sourceFolder&gt;${generated-sources-java-path}&lt;/sourceFolder&gt;
+            &lt;/configOptions&gt;
+            &lt;output&gt;${generated-sources-path}&lt;/output&gt;
+        &lt;/configuration&gt;
+        &lt;executions&gt;
+            &lt;execution&gt;
+                &lt;id&gt;generate-swagger-javaclient&lt;/id&gt;
+                &lt;phase&gt;generate-sources&lt;/phase&gt;
+                &lt;goals&gt;
+                    &lt;goal&gt;generate&lt;/goal&gt;
+                &lt;/goals&gt;
+                &lt;configuration&gt;
+                    &lt;language&gt;java&lt;/language&gt;
+                    &lt;modelPackage&gt;${groupId}.prozu.client.model&lt;/modelPackage&gt;
+                    &lt;apiPackage&gt;${groupId}.prozu.client.api&lt;/apiPackage&gt;
+                    &lt;invokerPackage&gt;${groupId}.prozu.client.invoker&lt;/invokerPackage&gt;
+                &lt;/configuration&gt;
+            &lt;/execution&gt;
+        &lt;/executions&gt;
+    &lt;/plugin&gt;
+    &lt;plugin&gt;
+        &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+        &lt;artifactId&gt;build-helper-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;1.9.1&lt;/version&gt;
+        &lt;executions&gt;
+            &lt;!-- TODO for eclipse/m2e users: install the m2e connector &#39;buildhelper&#39; by selecting &#39;Discover new m2e connectors&#39; while hovering over the follwoing execution tag --&gt;
+            &lt;execution&gt;
+                &lt;id&gt;add-generated-source&lt;/id&gt;
+                &lt;phase&gt;initialize&lt;/phase&gt;
+                &lt;goals&gt;
+                    &lt;goal&gt;add-source&lt;/goal&gt;
+                &lt;/goals&gt;
+                &lt;configuration&gt;
+                    &lt;sources&gt;
+                        &lt;source&gt;${generated-sources-path}/${generated-sources-java-path}&lt;/source&gt;
+                    &lt;/sources&gt;
+                &lt;/configuration&gt;
+            &lt;/execution&gt;
+        &lt;/executions&gt;
+    &lt;/plugin&gt;
+&lt;/plugins&gt;
+
+&lt;!-- the following is only necessary if you are using eclipse and m2e --&gt;
+&lt;pluginManagement&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.eclipse.m2e&lt;/groupId&gt;
+            &lt;artifactId&gt;lifecycle-mapping&lt;/artifactId&gt;
+            &lt;version&gt;1.0.0&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;lifecycleMappingMetadata&gt;
+                    &lt;pluginExecutions&gt;
+                        &lt;pluginExecution&gt;
+                            &lt;pluginExecutionFilter&gt;
+                                &lt;groupId&gt;io.swagger&lt;/groupId&gt;
+                                &lt;artifactId&gt;swagger-codegen-maven-plugin&lt;/artifactId&gt;
+                                &lt;versionRange&gt;[${version.swagger.codegen},)&lt;/versionRange&gt;
+                                &lt;goals&gt;
+                                    &lt;goal&gt;generate&lt;/goal&gt;
+                                &lt;/goals&gt;
+                            &lt;/pluginExecutionFilter&gt;
+                            &lt;action&gt;
+                                &lt;execute /&gt;
+                            &lt;/action&gt;
+                        &lt;/pluginExecution&gt;
+                    &lt;/pluginExecutions&gt;
+                &lt;/lifecycleMappingMetadata&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/pluginManagement&gt;
+&lt;/build&gt;
+</code></pre>
+<p>基于上面的Maven配置，运行<code>mvn generate-sources</code>生成客户端库代码到项目的target/generated-sources目录下，运行<code>mvn package</code>将会将生成的客户端库代码打包成一个jar包</p>
+<h3 id="客户端调用"><a href="#客户端调用" class="headerlink" title="客户端调用"></a>客户端调用</h3><p>最后，我们就可以在应用项目中使用那个客户端库调用服务了</p>
+<pre><code class="java">ApiClient apiClient = new ApiClient();
+apiClient.setBasePath(&quot;http://localhost:8080&quot;);
+CustomersApi customerApi = new CustomersApi(apiClient);
+List&lt;Customer&gt; customers = customerApi.getCustomers(&quot;peter&quot;, 40);
+</code></pre>
+<p>通过上述调用代码，可以看出这大大的简化了调用RESTful服务的过程，这里我们使用抽象api的调用，非常低级的工作交给了客户端的lib完成</p>
+<h2 id="博主声明"><a href="#博主声明" class="headerlink" title="博主声明"></a>博主声明</h2><p>本文属于博主原创英文技术文章翻译，原文连接请点击<a href="http://blog.philipphauer.de/enriching-restful-services-swagger/" target="_blank" rel="external">这里</a>,翻译过程博主对原文会加入自己的理解，文章结构也会有稍微调整以更适合阅读</p>
+<p>由于翻译和理解能力有限，文章难免会存在一定瑕疵希望读者见谅，如有任何错误纰漏欢迎在下方评论指正，谢谢！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2016-09-03, 14:04:44</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/09/03/enriching-restful-services-swagger/" title="使用Swagger插件丰富增强RESTful服务">http://www.jumpbyte.cn/2016/09/03/enriching-restful-services-swagger/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2016/09/03/enriching-restful-services-swagger/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/08/10/linux-command-online-practice/">
+                    linux线上命令实战演练
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">
+                    Spring Boot+SpringMVC4实现单文件多文件上传
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理RESTful服务现存的问题"><span class="toc-number">2.</span> <span class="toc-text">处理RESTful服务现存的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Swagger"><span class="toc-number">3.</span> <span class="toc-text">使用Swagger</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API优先"><span class="toc-number">3.1.</span> <span class="toc-text">API优先</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务优先"><span class="toc-number">3.2.</span> <span class="toc-text">服务优先</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端"><span class="toc-number">3.2.1.</span> <span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端"><span class="toc-number">3.2.2.</span> <span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端调用"><span class="toc-number">3.3.</span> <span class="toc-text">客户端调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博主声明"><span class="toc-number">4.</span> <span class="toc-text">博主声明</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"使用Swagger插件丰富增强RESTful服务　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/08/10/linux-command-online-practice/" title="上一篇: linux线上命令实战演练">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/" title="下一篇: Spring Boot+SpringMVC4实现单文件多文件上传">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

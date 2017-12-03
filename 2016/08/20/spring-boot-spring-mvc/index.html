@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="前言本教程适合对于有兴趣学习Spring Boot如何结合Spring MVC一起开发的初学者。通过本教程,您可以使用Spring Boot运行一个简单的Spring MVC应用程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Spring Boot运行Spring MVC 应用程序">
+<meta property="og:url" content="http://www.jumpbyte.cn/2016/08/20/spring-boot-spring-mvc/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="前言本教程适合对于有兴趣学习Spring Boot如何结合Spring MVC一起开发的初学者。通过本教程,您可以使用Spring Boot运行一个简单的Spring MVC应用程序">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-20/18274027.jpg">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-20/78731535.jpg">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Spring Boot运行Spring MVC 应用程序">
+<meta name="twitter:description" content="前言本教程适合对于有兴趣学习Spring Boot如何结合Spring MVC一起开发的初学者。通过本教程,您可以使用Spring Boot运行一个简单的Spring MVC应用程序">
+<meta name="twitter:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-20/18274027.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>基于Spring Boot运行Spring MVC 应用程序 | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-spring-boot-spring-mvc" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/spring-boot-spring-mvc/" class="article-date">
+      <time datetime="2016-08-20T11:52:31.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基于Spring Boot运行Spring MVC 应用程序
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创翻译/">原创翻译</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本教程适合对于有兴趣学习Spring Boot如何结合Spring MVC一起开发的初学者。通过本教程,您可以使用Spring Boot运行一个简单的Spring MVC应用程序<br><a id="more"></a></p>
+<blockquote>
+<p>SpringBoot是一个Spring IO中的一个项目，它旨在减少Spring应用程序启动配置和连接。开发人员只专注于编写应用程序，SpringBoot将简化打包和部署的流程，而且不需要任何显示的声明配置。它就是如此在容器之外工作的! 在这里,我将解释如何使用Spring Boot运行一个简单且带有执行CRUD操作的Spring MVC应用程序。开始这个例子之前,请<a href="http://www.javabeat.net/maven-eclipse/" target="_blank" rel="external">在eclipse中创建web项目</a>。</p>
+</blockquote>
+<ul>
+<li>扩展阅读:<a href="http://www.javabeat.net/spring-boot/" target="_blank" rel="external">http://www.javabeat.net/spring-boot/</a></li>
+</ul>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>我已经实现了一个例子，例子做了如下的工作</p>
+<ol>
+<li>创建一个Web 页面</li>
+<li>用户可以想数据库中添加员工</li>
+<li>用户可以在浏览器页面查看已添加到数据中的员工列表(JSON形式的结果)</li>
+</ol>
+<p>上面展现的工作使用到了Spring MVC, Hibernate and Spring Boot这些技术</p>
+<h3 id="创建领域对象"><a href="#创建领域对象" class="headerlink" title="创建领域对象"></a>创建领域对象</h3><p>第一步，创建一个用来存储员工详细信息的Employee类，它是一个简单的POJO对象</p>
+<pre><code class="java">@Entity
+public class Employee {
+
+    @Id
+    @NotNull
+    @Size(max = 64)
+    @Column(name = &quot;id&quot;, nullable = false, updatable = false)
+    private String id;
+
+    @NotNull
+    @Size(max = 64)
+    @Column(name = &quot;name&quot;, nullable = false)
+    private String name;
+
+    @NotNull
+    @Size(max = 64)
+    @Column(name = &quot;city&quot;, nullable = false)
+    private String city;
+
+    Employee() {
+    }
+
+    public Employee(final String id, final String name,final String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add(&quot;id&quot;, id)
+                .add(&quot;name&quot;, name)
+                .add(city, city)
+                .toString();
+    }
+}
+</code></pre>
+<h3 id="创建Spring-Data-JPA仓库"><a href="#创建Spring-Data-JPA仓库" class="headerlink" title="创建Spring Data JPA仓库"></a>创建Spring Data JPA仓库</h3><p>Spring Data JPA是一个非常简单的方法保存数据到后端，如果你看了下面的代码，这就是你要持久化员工类将要写的代码，Spring Data在内部为你实现了必要的类和CRUD的操作，你只需要像下面一样提供一个接口即可，如果你对于Spring Data有兴趣，请阅读我们的<a href="http://www.javabeat.net/spring-data-jpa-tutorial/" target="_blank" rel="external">Spring Data JPA教程</a></p>
+<pre><code>public interface EmployeeRepository extends JpaRepository&lt;Employee, String&gt; {
+}
+</code></pre><h3 id="创建服务的实现类"><a href="#创建服务的实现类" class="headerlink" title="创建服务的实现类"></a>创建服务的实现类</h3><pre><code class="java">@Service
+@Validated
+public class EmployeeServiceImpl implements EmployeeService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+    private final EmployeeRepository repository;
+
+    @Inject
+    public EmployeeServiceImpl(final EmployeeRepository repository) {
+        this.repository = repository;
+    }
+
+    @Transactional
+    public Employee save(@NotNull @Valid final Employee employee) {
+        LOGGER.debug(&quot;Creating {}&quot;, employee);
+        return repository.save(employee);
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;Employee&gt; getList() {
+        LOGGER.debug(&quot;Retrieving the list of all users&quot;);
+        return repository.findAll();
+    }
+}
+</code></pre>
+<h3 id="创建SpringMVC控制器"><a href="#创建SpringMVC控制器" class="headerlink" title="创建SpringMVC控制器"></a>创建SpringMVC控制器</h3><p>这里对于Spring的开发者来说没有任何新的特性，我们只是创建一个简单实现了对员工的详细信息的添加和列表浏览</p>
+<pre><code>@RestController
+public class EmployeeController {
+    private final EmployeeService employeeService;
+
+    @Inject
+    public EmployeeController(final EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @RequestMapping(value = &quot;/employee&quot;, method = RequestMethod.GET)
+    public List&lt;Employee&gt; listEmployees() {
+        List&lt;Employee&gt; employees = employeeService.getList();
+        return employees;
+    }
+    @RequestMapping(value=&quot;/add&quot;,method = RequestMethod.GET)
+    public void addEmployee(@RequestParam(value = &quot;employeeName&quot;, required = false) String employeeName,
+            @RequestParam(value = &quot;employeeId&quot;, required = false) String employeeId,
+            @RequestParam(value = &quot;employeeCity&quot;, required = false) String employeeCity){
+        Employee employee = new Employee(employeeId,employeeName,employeeCity);
+        employeeService.save(employee);
+    }
+}
+</code></pre><h3 id="创建JSP页面"><a href="#创建JSP页面" class="headerlink" title="创建JSP页面"></a>创建JSP页面</h3><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello WebSocket&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;/add&quot;&gt;
+    &lt;input type=&quot;input&quot; name=&quot;employeeName&quot;&gt;
+    &lt;input type=&quot;input&quot; name=&quot;employeeId&quot;&gt;
+    &lt;input type=&quot;input&quot; name=&quot;employeeCity&quot;&gt;
+    &lt;input type=&quot;submit&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="Spring-Boot-应用程序"><a href="#Spring-Boot-应用程序" class="headerlink" title="Spring Boot 应用程序"></a>Spring Boot 应用程序</h3><p>最后，我们需要写一个Spring Boot application来运行我们的示例，这是一个主应用程序，当你试图执行应用程序时，它将会被SpringBoot调用</p>
+<ul>
+<li>扩展阅读:<a href="http://www.javabeat.net/restful-springboot-mongodb/" target="_blank" rel="external">REStful API using Spring Boot</a></li>
+</ul>
+<pre><code>@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+public class Application extends SpringBootServletInitializer {
+
+    public static void main(final String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+    @Override
+    protected final SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+}
+</code></pre><p><strong>@EnableAutoConfiguration</strong></p>
+<p>这个注解会试图在类路径下去查找启动应用程序所必需的beans，例如，如果你在类路径下有一个tomcat-embedded.jar，你可能会需要一个TomcatEmbeddedServletContainerFactory，这个包下的这个类被@EnableAutoConfiguration注解就有特殊的意义，通常会被作为默认的使用。再比如，当扫描带有@Entity注解的类它将被用到。通常推荐的做法，你可以在一个包的根下使用@EnableAutoConfiguration注解，这样所有子包和类都会被搜索</p>
+<p><strong>SpringApplication.run()</strong></p>
+<p>SpringApplication类是用于引导和启动Spring应用程序的。引导一个Spring应用程序创建适当的应用程序上下文，加载beans，触发任何命令式的bean对象等</p>
+<p><strong>SpringBootServletInitializer</strong></p>
+<p>这个是运行web应用所必须的，它将打开一个 servlet 容器，并将你的应用绑定到此容器内。</p>
+<h3 id="MAVEN配置"><a href="#MAVEN配置" class="headerlink" title="MAVEN配置"></a>MAVEN配置</h3><p>这个运行SpringBoot应用非常重要的环节。SpringBoot需要通过在构建脚本文件中确定运行应用程序的包依赖，它能支持各种各样的构建工具，但SpringBoot官方文档中重点强调使用Maven和Gradle配置，因此，明智的做法是选择其中任何一个去简单的实现</p>
+<p>这里是使用maven配置如下：</p>
+<pre><code class="xml">&lt;dependencies&gt;
+       &lt;!-- Spring Boot --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+           &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+       &lt;/dependency&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+           &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+           &lt;scope&gt;test&lt;/scope&gt;
+       &lt;/dependency&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+           &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+       &lt;/dependency&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+           &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+       &lt;/dependency&gt;
+       &lt;!-- Hibernate validator --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+           &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+       &lt;/dependency&gt;
+       &lt;!-- HSQLDB --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;org.hsqldb&lt;/groupId&gt;
+           &lt;artifactId&gt;hsqldb&lt;/artifactId&gt;
+           &lt;scope&gt;runtime&lt;/scope&gt;
+       &lt;/dependency&gt;
+       &lt;!-- Guava --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;com.google.guava&lt;/groupId&gt;
+           &lt;artifactId&gt;guava&lt;/artifactId&gt;
+           &lt;version&gt;${guava.version}&lt;/version&gt;
+       &lt;/dependency&gt;
+       &lt;!-- Java EE --&gt;
+       &lt;dependency&gt;
+           &lt;groupId&gt;javax.inject&lt;/groupId&gt;
+           &lt;artifactId&gt;javax.inject&lt;/artifactId&gt;
+           &lt;version&gt;1&lt;/version&gt;
+       &lt;/dependency&gt;
+   &lt;/dependencies&gt;
+   &lt;build&gt;
+       &lt;plugins&gt;
+           &lt;!-- Spring Boot Maven --&gt;
+           &lt;plugin&gt;
+               &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+               &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+           &lt;/plugin&gt;
+       &lt;/plugins&gt;
+   &lt;/build&gt;
+</code></pre>
+<p><strong>spring-boot-starter-*</strong></p>
+<p>Starter POM是预定义的作为内置可用的POM集合描述，你不需要去搜索和配置那些依赖。比如，如果你正在为数据访问寻找Spring和JPA依赖，你只需把spring-boot-starter-data-jpa包含到你的POM文件中即可</p>
+<p><strong>spring-boot-maven-plugin</strong></p>
+<p>这个插件允许你将应用程序打包成一个可执行的JAR或WAR文件，它支持Maven 3.2以上版本。在我们的示例，当你使用“mvn install”命令运行项目，maven将构建此项目并且会在target目录创建一个可执行的JAR文件。</p>
+<p><strong>spring-boot-starter-parent</strong></p>
+<p>如果你想从spring-boot-starter-parent继承属性,然后简单地设置此父项目。如果你使用此父项目,版本号可以省略其他starters POM也如此。如果你有你自己的项目为你的项目,那么你可以使用它们代替由SpringBoot默认提供的父项目。配置如下：</p>
+<pre><code class="xml">&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.0.1.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
+</code></pre>
+<h3 id="最终项目结构"><a href="#最终项目结构" class="headerlink" title="最终项目结构"></a>最终项目结构</h3><p>下面图是最终项目的包结构，这里我已经在一个包下面创建了一个Application.java。但好的实践是把这个文件直接放到包的根目录下<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-8-20/18274027.jpg" alt="最终项目的包结构"></p>
+<h3 id="运行SpringBoot可执行Jar包"><a href="#运行SpringBoot可执行Jar包" class="headerlink" title="运行SpringBoot可执行Jar包"></a>运行SpringBoot可执行Jar包</h3><p>一旦你创建好了应用程序，运行这个命令来执行应用程序</p>
+<pre><code>java -jar target/mymodule-0.0.1-SNAPSHOT.jar
+</code></pre><p>在你命令行程序运行上面的命令后，SpringBoot应用会在<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a>运行此程序。你可以通过<a href="http://localhost:8080/index.jsp" target="_blank" rel="external">http://localhost:8080/index.jsp</a>访问应用的首页<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-8-20/78731535.jpg" alt="访问应用的首页"></p>
+<p>你可以添加很多行员工数据，当你访问<a href="http://localhost:8080/employee" target="_blank" rel="external">http://localhost:8080/employee</a>,你会在浏览器窗口看到类似下面的输出</p>
+<pre><code>[{&quot;id&quot;:&quot;Krishna&quot;,&quot;name&quot;:&quot;001&quot;,&quot;city&quot;:&quot;Bangalore&quot;},{&quot;id&quot;:&quot;Manisha Patil&quot;,&quot;name&quot;:&quot;005&quot;,&quot;city&quot;:&quot;Pune&quot;},{&quot;id&quot;:&quot;Sanulla&quot;,&quot;name&quot;:&quot;001&quot;,&quot;city&quot;:&quot;Bangalore&quot;},{&quot;id&quot;:&quot;Shunmuga Raja&quot;,&quot;name&quot;:&quot;001&quot;,&quot;city&quot;:&quot;Bangalore&quot;}]
+</code></pre><h3 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h3><p><a href="http://javabeat.net/download/spring-boot-spring-mvc/?wpdmdl=22124" target="_blank" rel="external">Spring Boot Spring MVC</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在本文中,我们已经讨论了如何创建一个maven项目和创建员工所需的不同组件管理Spring MVC应用程序。后来我们已经探讨了SpringBoot配置细节和SpringBoot应用所需的Maven POM文件内容。最后我们已经讨论了运行一个通过Maven打包生成可执行JAR文件。在本教程中,您将能够了解关于SpringBoot和Spring MVC是怎样一起工作</p>
+<h3 id="博主声明"><a href="#博主声明" class="headerlink" title="博主声明"></a>博主声明</h3><p>本文属于博主原创英文技术文章翻译，原文连接请点击<a href="http://javabeat.net/spring-boot-spring-mvc/" target="_blank" rel="external">这里</a>,翻译过程博主对原文会加入自己的理解，文章结构也会有稍微调整以更适合阅读</p>
+<p>由于翻译和理解能力有限，文章难免会存在一定瑕疵希望读者见谅，如有任何错误纰漏欢迎在下方评论指正，谢谢！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2016-08-20, 11:52:31</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/20/spring-boot-spring-mvc/" title="基于Spring Boot运行Spring MVC 应用程序">http://www.jumpbyte.cn/2016/08/20/spring-boot-spring-mvc/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2016/08/20/spring-boot-spring-mvc/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">
+                    Spring Boot+SpringMVC4实现单文件多文件上传
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/13/zookeeper-install-deploy/">
+                    在windows,linux下搭建zookeeper集群环境
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始"><span class="toc-number">2.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建领域对象"><span class="toc-number">3.</span> <span class="toc-text">创建领域对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Spring-Data-JPA仓库"><span class="toc-number">4.</span> <span class="toc-text">创建Spring Data JPA仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建服务的实现类"><span class="toc-number">5.</span> <span class="toc-text">创建服务的实现类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建SpringMVC控制器"><span class="toc-number">6.</span> <span class="toc-text">创建SpringMVC控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建JSP页面"><span class="toc-number">7.</span> <span class="toc-text">创建JSP页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-Boot-应用程序"><span class="toc-number">8.</span> <span class="toc-text">Spring Boot 应用程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAVEN配置"><span class="toc-number">9.</span> <span class="toc-text">MAVEN配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最终项目结构"><span class="toc-number">10.</span> <span class="toc-text">最终项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行SpringBoot可执行Jar包"><span class="toc-number">11.</span> <span class="toc-text">运行SpringBoot可执行Jar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码下载"><span class="toc-number">12.</span> <span class="toc-text">源码下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">13.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#博主声明"><span class="toc-number">14.</span> <span class="toc-text">博主声明</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"基于Spring Boot运行Spring MVC 应用程序　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/" title="上一篇: Spring Boot+SpringMVC4实现单文件多文件上传">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/13/zookeeper-install-deploy/" title="下一篇: 在windows,linux下搭建zookeeper集群环境">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

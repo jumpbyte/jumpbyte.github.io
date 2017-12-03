@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="Zookeeper简介Zookeeper是一个分布式服务框架，它是 Apache Hadoop 的一个子项目，主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。本文将介绍Zookeeper如何在windows和linux下的进行集群部署，以便为我们使用zookeeper的相关功能做好环境支持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在windows,linux下搭建zookeeper集群环境">
+<meta property="og:url" content="http://www.jumpbyte.cn/2016/08/13/zookeeper-install-deploy/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="Zookeeper简介Zookeeper是一个分布式服务框架，它是 Apache Hadoop 的一个子项目，主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。本文将介绍Zookeeper如何在windows和linux下的进行集群部署，以便为我们使用zookeeper的相关功能做好环境支持">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-13/78596671.jpg">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-13/9287916.jpg">
+<meta property="og:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-13/11539405.jpg">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在windows,linux下搭建zookeeper集群环境">
+<meta name="twitter:description" content="Zookeeper简介Zookeeper是一个分布式服务框架，它是 Apache Hadoop 的一个子项目，主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。本文将介绍Zookeeper如何在windows和linux下的进行集群部署，以便为我们使用zookeeper的相关功能做好环境支持">
+<meta name="twitter:image" content="http://oaefo3hoy.bkt.clouddn.com/16-8-13/78596671.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>在windows,linux下搭建zookeeper集群环境 | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-zookeeper-install-deploy" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/13/zookeeper-install-deploy/" class="article-date">
+      <time datetime="2016-08-13T17:56:29.000Z" itemprop="datePublished">2016-08-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在windows,linux下搭建zookeeper集群环境
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/安装部署/">安装部署</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Zookeeper简介"><a href="#Zookeeper简介" class="headerlink" title="Zookeeper简介"></a>Zookeeper简介</h2><p>Zookeeper是一个分布式服务框架，它是 Apache Hadoop 的一个子项目，主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等。本文将介绍Zookeeper如何在windows和linux下的进行集群部署，以便为我们使用zookeeper的相关功能做好环境支持</p>
+<a id="more"></a>
+<h2 id="安装前提"><a href="#安装前提" class="headerlink" title="安装前提"></a>安装前提</h2><p>zookeeper本身要依赖java jdk环境，在搭建前需要确认你的系统安装了java jdk，并配置好了jdk环境变量</p>
+<h2 id="win下搭建zookeeper集群"><a href="#win下搭建zookeeper集群" class="headerlink" title="win下搭建zookeeper集群"></a>win下搭建zookeeper集群</h2><p>由于机器有限，本次教程准备在单台机器搭建三个zookeeper节点(集群节点至少为三个)，来模拟zookeeper集群环境</p>
+<h3 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h3><p>访问<a href="https://zookeeper.apache.org/" title="zookeeper官网" target="_blank" rel="external">https://zookeeper.apache.org/</a>找到并下载我们需要安装的版本，这里我选择下载<a href="http://apache.org/dist/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz" target="_blank" rel="external">zookeeper 3.4.6版本</a>(注：zookeeper安装包不区分操作系统平台)</p>
+<h3 id="安装包解压，集群节点建立"><a href="#安装包解压，集群节点建立" class="headerlink" title="安装包解压，集群节点建立"></a>安装包解压，集群节点建立</h3><ol>
+<li><p>创建集群目录如<code>D:\ProgramFiles\zk_cluster</code>,并在集群目录下创建三个目录s1,s2,s3，代表三个zookeeper集群节点，如图:<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-8-13/78596671.jpg" alt="三个zookeeper节点目录"></p>
+</li>
+<li><p>将下载的安装包解压到指定zookeeper节点目录，本教程我先解压到上文中新建的s1目录(D:\ProgramFiles\zk_cluster\s1),并重命名zookeeper-3.4.6为zookeeper</p>
+</li>
+<li><p>在s1目录(D:\ProgramFiles\zk_cluster\s1)新建data和dataLog两个目录(下文配置会用到)，最终s1目录结构如图：<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-8-13/9287916.jpg" alt="s1目录结构"></p>
+</li>
+</ol>
+<h3 id="配置zoo-cfg文件参数"><a href="#配置zoo-cfg文件参数" class="headerlink" title="配置zoo.cfg文件参数"></a>配置zoo.cfg文件参数</h3><p>在目录D:\ProgramFiles\zk_cluster\s1\zookeeper\conf 有一个zoo_sample.cfg文件，先将其重命名或者复制为zoo.cfg(zookeeper在启动时会找这个文件作为默认配置文件),然后修改zoo.cfg为如下内容(<a href="#zoo_cfg_table">zoo.cfg各个配置参数的含义</a>)</p>
+<pre><code>tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=D:\\ProgramFiles\\zk_cluster\\s1\\data
+dataLogDir=D:\\ProgramFiles\\zk_cluster\\s1\\dataLog
+clientPort=2181
+autopurge.snapRetainCount=3
+autopurge.purgeInterval=1
+server.1=127.0.0.1:2887:3887
+server.2=127.0.0.1:2888:3888
+server.3=127.0.0.1:2889:3889
+</code></pre><p>除了修改zoo.cfg配置文件，集群模式下我们还要在上面dataDir指定的目录创建一个文件myid，文件内容为一个数字1，Zookeeper启动时会读取这个文件，拿到里面的数字匹配zoo.cfg中server.1，从而判断那个是当前的server。</p>
+<p>通过上述步骤，我们s1节点配置就已经完成了，接着我们可以按照同样的思路配置其他两个节点，为了方便，我们直接将s1节点目录下面的所有内容分别复制到s2,s3节点目录下然后做如下调整</p>
+<ol>
+<li>修改s2,s3各自myid文件内容<br>s2\data\myid –&gt;2<br>s3\data\myid –&gt;3</li>
+<li>修改s2,s3各自的zoo.cfg配置参数，主要修改dataDir,dataLogDir对应到各自相应的目录,因为是单机模式，为了防止端口冲突，也需要修改clientPort参数<br>s2节点的zoo.cfg修改的内容如下<pre><code>dataDir=D:\\ProgramFiles\\zk_cluster\\s2\\data
+dataLogDir=D:\\ProgramFiles\\zk_cluster\\s2\\dataLog
+clientPort=2182
+</code></pre>s3节点的zoo.cfg修改的内容如下<pre><code>dataDir=D:\\ProgramFiles\\zk_cluster\\s3\\data
+dataLogDir=D:\\ProgramFiles\\zk_cluster\\s3\\dataLog
+clientPort=2183
+</code></pre></li>
+</ol>
+<h3 id="启动集群中各个节点"><a href="#启动集群中各个节点" class="headerlink" title="启动集群中各个节点"></a>启动集群中各个节点</h3><p>到此为止，我们所有节点配置已经完成，接下来在每个节点目录zookeeper/bin目录都有一个zkServer.cmd脚本，分别双击对应脚本，即可以启动每个节点，所有节点启动后，此时会看到集群节点建立的信息，如下图，从图中我们可以看到集群正常启动，s2为集群的Leader,s1、s3为Flower节点<br><img src="http://oaefo3hoy.bkt.clouddn.com/16-8-13/11539405.jpg" alt="集群节点"></p>
+<p>如果觉得每次都要到对应节点下启动各自zkServer.cmd麻烦的话，我们可以做一个bat脚本来批量执行各自节点的zkServer.cmd；如我在D:\ProgramFiles\zk_cluster添加了一个zk_cluster_start.bat，内容如下，这样可以快速启动集群节点</p>
+<pre><code class="shell">start cmd /c call %~dp0%s1\zookeeper\bin\zkServer.cmd
+start cmd /c call %~dp0%s2\zookeeper\bin\zkServer.cmd
+start cmd /c call %~dp0%s3\zookeeper\bin\zkServer.cmd
+</code></pre>
+<h3 id="测试集群"><a href="#测试集群" class="headerlink" title="测试集群"></a>测试集群</h3><p>打开cmd窗口，切换到任意节点目录下zookeeper/bin, 输入zkCli.cmd -server host:port 连接集群任意节点测试，下面是我测试的结果,通过测试结果可以看出我们的集群可以正常工作，集群环境搭建成功</p>
+<pre><code>D:\ProgramFiles\zk_cluster\s1\zookeeper\bin&gt;zkCli.cmd -server 127.0.0.1:2183
+...省略连接内容...
+[zk: 127.0.0.1:2183(CONNECTED) 1] create  /test1  aaaa
+Created /test1
+[zk: 127.0.0.1:2183(CONNECTED) 5] connect 127.0.0.1:2181
+...省略连接内容...
+[zk: 127.0.0.1:2181(CONNECTED) 0] get /test1
+aaaa
+cZxid = 0x700000006
+ctime = Sat Aug 13 21:44:50 CST 2016
+mZxid = 0x700000006
+mtime = Sat Aug 13 21:44:50 CST 2016
+pZxid = 0x700000006
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 4
+numChildren = 0
+[zk: 127.0.0.1:2181(CONNECTED) 1]
+</code></pre><p>windows上搭建zookeeper集群环境部署完毕！</p>
+<h2 id="linux下搭建zookeeper集群"><a href="#linux下搭建zookeeper集群" class="headerlink" title="linux下搭建zookeeper集群"></a>linux下搭建zookeeper集群</h2><p>由于机器有限，本次教程准备在单台centos6.5虚拟机搭建三个zookeeper节点(集群节点至少为三个)，来模拟zookeeper集群环境</p>
+<h3 id="安装包下载解压"><a href="#安装包下载解压" class="headerlink" title="安装包下载解压"></a>安装包下载解压</h3><p>进入shell命令窗口,将安装包下载到/usr/local/src目录，zookeeper版本同样使用<a href="http://apache.org/dist/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz" target="_blank" rel="external">3.4.6版本</a></p>
+<pre><code class="bash">[root@centos ~]# cd /usr/local/src
+[root@centos src]# wget http://apache.org/dist/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz
+[root@centos src]# tar -zxvf zookeeper-3.4.6.tar.gz
+[root@centos src]# ll
+总用量 21332
+-rw-r--r--.  1 root root   392756 8月  10 11:31 man-db-2.7.5-3-x86_64.pkg.tar.xz
+-rw-r--r--.  1 root root   909077 8月  10 09:21 nginx-1.10.1.tar.gz
+drwxrwxr-x.  6 root root     4096 4月   1 2015 redis-3.0.0
+-rw-r--r--.  1 root root  1358081 4月   1 2015 redis-3.0.0.tar.gz
+drwxr-xr-x. 14 root root     4096 8月  10 11:07 xz-5.2.2
+-rw-r--r--.  1 root root  1464228 8月  10 11:04 xz-5.2.2.tar.gz
+drwxr-xr-x. 10 1000 1000     4096 8月   8 11:13 zookeeper-3.4.6
+-rw-r--r--.  1 root root 17699306 8月   8 10:54 zookeeper-3.4.6.tar.gz
+</code></pre>
+<h3 id="配置安装目录及环境变量"><a href="#配置安装目录及环境变量" class="headerlink" title="配置安装目录及环境变量"></a>配置安装目录及环境变量</h3><pre><code>[root@centos src] ln -s zookeeper-3.4.6  /usr/local/zookeeper
+</code></pre><p>这里我将zookeeper软连接到/usr/local/zookeeper下面，以后升级zookeeper版本可以不用修改让任何环境变量，直接更改软连接指向就可以完成升级</p>
+<p>配置环境变量<br>vi 编辑/etc/profile文件，导入ZK_HOME环境变量，路径指向刚才的软连接目录，如下：</p>
+<pre><code>#export env path
+export JAVA_HOME=/usr/local/java/jdk
+export PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+export PATH=$PATH:$CLASSPATH
+export ZK_HOME=/usr/local/zookeeper
+export PATH=$PATH:$ZK_HOME/bin
+for i in /etc/profile.d/*.sh ; do
+    if [ -r &quot;$i&quot; ]; then
+        if [ &quot;${-#*i}&quot; != &quot;$-&quot; ]; then
+            . &quot;$i&quot;
+        else
+            . &quot;$i&quot; &gt;/dev/null 2&gt;&amp;1
+        fi
+    fi
+done
+unset i
+unset -f pathmunge
+</code></pre><p>这里注意jdk环境变量和zookeeper环境变量，要配置在第8行的上面，因为下文我们的登录自动启动脚本会放到/etc/profile.d/下，所以要在脚本执行前导入环境变量</p>
+<h3 id="配置集群节点"><a href="#配置集群节点" class="headerlink" title="配置集群节点"></a>配置集群节点</h3><p>创建集群目录</p>
+<ol>
+<li>在/usr/local目录创建zookeeper_cluster目录，然后在zookeeper_cluster目录先创建一个集群节点目录server1</li>
+<li>在server1目录创建data,logs目录</li>
+<li>最后将/usr/local/zookeeper/conf/zoo_sample.cfg 拷贝重命名为zoo.cfg到server1目录</li>
+</ol>
+<p>操作过程如下</p>
+<pre><code>[root@centos local]# mkdir zookeeper_cluster
+[root@centos local]# cd zookeeper_cluster
+[root@centos zookeeper_cluster]# mkdir server1
+[root@centos zookeeper_cluster]# cd server1
+[root@centos server1]# mkdir data logs
+[root@centos server1]# cp /usr/local/zookeeper/conf/zoo_sample.cfg zoo.cfg
+</code></pre><p>配置zoo.cfg文件参数</p>
+<p>修改server1节点目录下zoo.cfg文件的内容(<a href="#zoo_cfg_table">zoo.cfg各个配置参数的含义</a>)</p>
+<pre><code>[root@centos server1]# vi zoo.cfg
+</code></pre><p>内容修改如下</p>
+<pre><code>tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/usr/local/zookeeper_cluster/server1/data
+dataLogDir=/usr/local/zookeeper_cluster/server1/logs
+clientPort=2181
+autopurge.snapRetainCount=3
+autopurge.purgeInterval=1
+server.1=127.0.0.1:2887:3887
+server.2=127.0.0.1:2888:3888
+server.3=127.0.0.1:2889:3889
+</code></pre><p>创建myid文件</p>
+<p>除了修改zoo.cfg配置文件，集群模式下我们还要在上面dataDir指定的目录创建一个文件myid，文件内容为一个数字1，Zookeeper启动时会读取这个文件，拿到里面的数字匹配zoo.cfg中server.1，从而判断那个是当前的server。</p>
+<pre><code>[root@centos server1]# echo 1 &gt; data/myid
+</code></pre><p>配置另外两个节点</p>
+<p>通过上述步骤，我们server1节点配置就已经完成了，接着我们可以按照同样的思路配置其他两个节点，为了方便，我们直接将server1节点目录复制为server2,server3</p>
+<pre><code>[root@centos zookeeper_cluster] cp -rf server1  server2
+[root@centos zookeeper_cluster] cp -rf server1  server3
+</code></pre><ol>
+<li>修改server2,server3各自myid文件内容<pre><code>[root@centos zookeeper_cluster] echo 2 &gt; server2/myid
+[root@centos zookeeper_cluster] echo 3 &gt; server3/myid
+</code></pre></li>
+<li>修改server2,server3各自的zoo.cfg配置参数，主要修改dataDir,dataLogDir对应到各自相应的目录,因为是单机模式，为了防止端口冲突，也需要修改clientPort参数<br>server2节点zoo.cfg修改内容如下<pre><code>dataDir=/usr/local/zookeeper_cluster/server2/data
+dataLogDir=/usr/local/zookeeper_cluster/server2/logs
+clientPort=2182
+</code></pre>server3节点zoo.cfg修改内容如下<pre><code>dataDir=/usr/local/zookeeper_cluster/server3/data
+dataLogDir=/usr/local/zookeeper_cluster/server3/logs
+clientPort=2183
+</code></pre></li>
+</ol>
+<h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><p>这里我们先在/etc/profile.d/ 创建一个集群启动的脚本zk_cluster_strat.sh，脚本内容如下：</p>
+<pre><code> #!/bin/bash
+ #description:auto start zookeeper cluster nodes when user login
+ zkServer.sh start  /usr/local/zookeeper_cluster/server1/zoo.cfg
+ zkServer.sh start  /usr/local/zookeeper_cluster/server2/zoo.cfg
+ zkServer.sh start  /usr/local/zookeeper_cluster/server3/zoo.cfg
+</code></pre><p> 脚本创建好之后，我们来手动执行下此脚本</p>
+<pre><code>[root@centos ~]# .  /etc/profile.d/zk_cluster_start.sh
+JMX enabled by default
+Using config: /usr/local/zookeeper_cluster/server1/zoo.cfg
+Starting zookeeper ... STARTED
+JMX enabled by default
+Using config: /usr/local/zookeeper_cluster/server2/zoo.cfg
+Starting zookeeper ... STARTED
+JMX enabled by default
+Using config: /usr/local/zookeeper_cluster/server3/zoo.cfg
+Starting zookeeper ... STARTED
+</code></pre><h3 id="测试集群-1"><a href="#测试集群-1" class="headerlink" title="测试集群"></a>测试集群</h3><p>接着我们用zkCli.sh测试每个节点连接</p>
+<pre><code>[root@centos ~]# zkCli.sh -server 127.0.0.1:2181
+省略连接内容...
+[zk: 127.0.0.1:2181(CONNECTED) 0] create /test  hello,world! #创建一个节点目录
+Created /test
+[zk: 127.0.0.1:2181(CONNECTED) 0] connect 127.0.0.1:2182
+省略连接内容...
+[zk: 127.0.0.1:2182(CONNECTED) 4] get /test  #获取刚才在127.0.0.1:2181创建/test节点内容
+hello,world!
+cZxid = 0x900000002
+ctime = Sun Aug 14 11:51:05 CST 2016
+mZxid = 0x900000002
+mtime = Sun Aug 14 11:51:05 CST 2016
+pZxid = 0x900000002
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 12
+numChildren = 0
+127.0.0.1:2181
+[zk: 127.0.0.1:2182(CONNECTED) 5] connect 127.0.0.1:2183
+省略连接内容...
+[zk: 127.0.0.1:2183(CONNECTED) 2] get /test #获取刚才在127.0.0.1:2181创建/test节点内容
+hello,world!
+cZxid = 0x900000002
+ctime = Sun Aug 14 11:51:05 CST 2016
+mZxid = 0x900000002
+mtime = Sun Aug 14 11:51:05 CST 2016
+pZxid = 0x900000002
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x0
+dataLength = 12
+numChildren = 0
+</code></pre><p>linux上搭建zookeeper集群环境部署完毕！</p>
+<hr>
+
+<h2 id="zoo-cfg各个配置参数的含义"><a href="#zoo-cfg各个配置参数的含义" class="headerlink" title="zoo.cfg各个配置参数的含义"></a><span id="zoo_cfg_table">zoo.cfg各个配置参数的含义</span></h2><table>
+<thead>
+<tr>
+<th style="text-align:center">配置参数</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>tickTime</strong></td>
+<td style="text-align:left">这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个tickTime时间就会发送一个心跳。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>initLimit</strong></td>
+<td style="text-align:left">这个配置项是用来配置Zookeeper接受客户端（这里所说的客户端不是用户连接Zookeeper服务器的客户端，而是Zookeeper服务器集群中连接到Leader的Follower服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过10个心跳的时间（也就是tickTime）长度后Zookeeper服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是5*2000=10秒</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>syncLimit</strong></td>
+<td style="text-align:left">这个配置项标识Leader与Follower之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就2*2000=4 秒</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>dataDir</strong></td>
+<td style="text-align:left">顾名思义就是Zookeeper保存数据的目录，默认情况下，Zookeeper将写数据的日志文件也保存在这个目录里。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>dataLogDir</strong></td>
+<td style="text-align:left">顾名思义就是Zookeeper记录数据变化的日志目录，如果不配置，默认日志文件会保存到dataDir数据目录中。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>clientPort</strong></td>
+<td style="text-align:left">这个端口就是客户端连接Zookeeper服务器的端口，Zookeeper会监听这个端口，接受客户端的访问请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>autopurge.snapRetainCount</strong></td>
+<td style="text-align:left">指定了需要保留的快照文件数目。默认是保留3个，需要和autopurge.purgeInterval搭配使用。</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>autopurge.purgeInterval</strong></td>
+<td style="text-align:left">指定了自动清理快照和事务日志的频率，单位是小时，需要填写一个1或更大的整数，默认是0，表示不开启自己清理功能</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>server.A=B：C：D</strong></td>
+<td style="text-align:left">其中A是一个数字，表示这个是第几号服务器；B是这个服务器的ip地址；C表示的是这个服务器与集群中的Leader服务器交换信息的端口；D 表示的是万一集群中的Leader服务器挂了，需要一个端口来重新进行选举，选出一个新的Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于B都是一样，所以不同的Zookeeper实例通信端口号不能一样，所以要给它们分配不同的端口号。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="http://www.ibm.com/developerworks/cn/data/library/bd-zookeeper/" target="_blank" rel="external">ZooKeeper 基础知识、部署和应用程序</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/" target="_blank" rel="external">分布式服务框架 Zookeeper – 管理分布式环境中的数据</a></li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2016-08-13, 17:56:29</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/13/zookeeper-install-deploy/" title="在windows,linux下搭建zookeeper集群环境">http://www.jumpbyte.cn/2016/08/13/zookeeper-install-deploy/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2016/08/13/zookeeper-install-deploy/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/08/20/spring-boot-spring-mvc/">
+                    基于Spring Boot运行Spring MVC 应用程序
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/07/linux命令拾遗-1/">
+                    linux命令拾遗(1)-whatis info man which whereis
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Zookeeper简介"><span class="toc-number">1.</span> <span class="toc-text">Zookeeper简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装前提"><span class="toc-number">2.</span> <span class="toc-text">安装前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win下搭建zookeeper集群"><span class="toc-number">3.</span> <span class="toc-text">win下搭建zookeeper集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装包下载"><span class="toc-number">3.1.</span> <span class="toc-text">安装包下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装包解压，集群节点建立"><span class="toc-number">3.2.</span> <span class="toc-text">安装包解压，集群节点建立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置zoo-cfg文件参数"><span class="toc-number">3.3.</span> <span class="toc-text">配置zoo.cfg文件参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动集群中各个节点"><span class="toc-number">3.4.</span> <span class="toc-text">启动集群中各个节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试集群"><span class="toc-number">3.5.</span> <span class="toc-text">测试集群</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux下搭建zookeeper集群"><span class="toc-number">4.</span> <span class="toc-text">linux下搭建zookeeper集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装包下载解压"><span class="toc-number">4.1.</span> <span class="toc-text">安装包下载解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置安装目录及环境变量"><span class="toc-number">4.2.</span> <span class="toc-text">配置安装目录及环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置集群节点"><span class="toc-number">4.3.</span> <span class="toc-text">配置集群节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动集群"><span class="toc-number">4.4.</span> <span class="toc-text">启动集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试集群-1"><span class="toc-number">4.5.</span> <span class="toc-text">测试集群</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zoo-cfg各个配置参数的含义"><span class="toc-number">5.</span> <span class="toc-text">zoo.cfg各个配置参数的含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"在windows,linux下搭建zookeeper集群环境　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/08/20/spring-boot-spring-mvc/" title="上一篇: 基于Spring Boot运行Spring MVC 应用程序">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/07/linux命令拾遗-1/" title="下一篇: linux命令拾遗(1)-whatis info man which whereis">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

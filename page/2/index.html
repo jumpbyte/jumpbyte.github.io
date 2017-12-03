@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+    
+    
+
+
+<meta name="description" content="90后潜力架构师一枚，喜欢开源，喜欢钻研，linux爱好者，希望能和各种技术爱好者共同交流学习，进步！">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JumpByte的博客">
+<meta property="og:url" content="http://www.jumpbyte.cn/page/2/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="90后潜力架构师一枚，喜欢开源，喜欢钻研，linux爱好者，希望能和各种技术爱好者共同交流学习，进步！">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JumpByte的博客">
+<meta name="twitter:description" content="90后潜力架构师一枚，喜欢开源，喜欢钻研，linux爱好者，希望能和各种技术爱好者共同交流学习，进步！">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <style> .article { opacity: 0;} </style>
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: true,
+        isPost: false,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-howto-use-markdownedit" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/19/howto-use-markdownedit/" class="article-date">
+      <time datetime="2016-06-19T08:25:26.000Z" itemprop="datePublished">2016-06-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="欢迎使用-Cmd-Markdown-编辑阅读器"><a href="#欢迎使用-Cmd-Markdown-编辑阅读器" class="headerlink" title="欢迎使用 Cmd Markdown 编辑阅读器"></a>欢迎使用 Cmd Markdown 编辑阅读器</h1><hr>
+<p>我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，<strong>Cmd Markdown</strong> 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：</p>
+<blockquote>
+<ul>
+<li>整理知识，学习笔记</li>
+<li>发布日记，杂文，所见所想</li>
+<li>撰写发布技术文稿（代码支持）</li>
+<li>撰写发布学术论文（LaTeX 公式支持）
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/markdown/">markdown</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markdown/">markdown</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/06/19/howto-use-markdownedit/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-createquery-vs-createsqlsquery" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/06/04/createquery-vs-createsqlsquery/" class="article-date">
+      <time datetime="2014-06-04T18:37:29.000Z" itemprop="datePublished">2014-06-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>本文将介绍Hibernate的Session类createQuery, createSQLSquery方法两个区别及如何使用</p>
+<h3 id="createQuery"><a href="#createQuery" class="headerlink" title="createQuery"></a>createQuery</h3><p>可以使用”FROM Student”这样的HQL语句进行查询，其中”Student”是持久化Student类的名称</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Hibernate/">Hibernate</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2014/06/04/createquery-vs-createsqlsquery/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jquery实现页面置顶功能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/11/26/jquery实现页面置顶功能/" class="article-date">
+      <time datetime="2013-11-26T09:14:00.000Z" itemprop="datePublished">2013-11-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><p><br></p>
+<pre><code class="js">&lt;html&gt;
+&lt;head&gt;
+ &lt;title&gt;&lt;/title&gt;&lt;br&gt;&lt;script type=&#39;text/javascript&gt;
+//回到顶部功能
+function gotoTop(min_height) {
+    $(&quot;#toTop&quot;).click(//定义返回顶部点击向上滚动的动画
+        function () {
+            $(&#39;html,body&#39;).animate({ scrollTop: 0 }, 700);
+        });
+    //获取页面的最小高度，无传入值则默认为600像素
+    min_height ? min_height = min_height : min_height = 600;
+    //为窗口的scroll事件绑定处理函数
+    $(window).scroll(function () {
+        //获取窗口的滚动条的垂直位置
+        var s = $(window).scrollTop();
+        //当窗口的滚动条的垂直位置大于页面的最小高度时，让返回顶部元素渐现，否则渐隐
+        if (s &gt; min_height) {
+            $(&quot;#totop&quot;).fadeIn(100);
+        } else {
+            $(&quot;#toTop&quot;).fadeOut(200);
+        };
+    });
+};
+&lt;/script&gt;&#39;
+ &lt;/head&gt;
+    &lt;body&gt;
+       &lt;div id=&#39;toTop&#39; &gt;&lt;/div&gt;
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>博客搬家至此，原文可以访问<a href="http://www.cnblogs.com/yja9010/p/3442638.html" target="_blank" rel="external">这里</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/code-block-list/">代码片段</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-bridge" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/bridge/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>首先我们来看下下面这个问题</p>
+<blockquote>
+<p>假如我们需要开发一个同时支持PC和手机的坦克游戏，游戏在PC和手机上功能都一样，都有同样的类型，面临同样的功能需求变化，比如坦克可能有多种不同的型号：T50，T75，T90..对于其中的坦克设计，我们可能很容易设计出来一个Tank的抽象类，然后各种不同型号的Tank继承自该类，但是PC和手机上的图形绘制、声效、操作等实现完全不同…因此对于各种型号的坦克，都 要提供各种不同平台上的坦克实现；而这样的设计带来了很多问题：有很多重复代码，类的结构过于复杂，难以维护，最致命的是引入任何新的平台，比如TV上的Tank游戏，都会让整个类层次级结构复杂化</p>
+</blockquote>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/桥接模式/">桥接模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/bridge/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-TemplateMethod" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/TemplateMethod/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>在软件构建过程中，对于某一项任务，他常常有稳定的整体操作结构，但各个子步骤却有很多改变的需求，或者由于固有的原因（比如框架与应用之间的关系）而无法和任务的整体结构同时实现；如何在确定稳定操作结构的前提下，来灵活应对各种子步骤的变化或者晚期实现需求？</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/模板方法/">模板方法</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/TemplateMethod/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Singleton" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/Singleton/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>在软件系统中，经常有这样的一些特殊的类，必须保证它们在系统中 只存在一个实例，才能确保它们的逻辑正确性、以及良好的效率</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例模式/">单例模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/Singleton/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Prototype" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/Prototype/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="意图"><a href="#意图" class="headerlink" title="意图"></a>意图</h3><p>使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象</p>
+<h3 id="可适用性"><a href="#可适用性" class="headerlink" title="可适用性"></a>可适用性</h3><ol>
+<li>当要实例化的类是在运行时刻指定时，例如，通过动态装载；或者为了避免创建一个与产品类层次平行的工厂类层次时</li>
+<li>当一个类的实例只能有几个不同状态组合中的一种时。建立相应数目的原型并克隆它们可能比每次用合适的状态手工实例化该类更方便一些。</li>
+</ol>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原型模式/">原型模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/Prototype/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-AbstractFactory" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/AbstractFactory/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>在软件系统中，经常面临着“系列相互依赖的对象”的创建工作：同时，由于需求的变化，往往存在更多系列对象 的创建工作；如何应对这种变化？如何绕过常规的对象创建方法（new），提供一种“封装机制”来避免客户程序和这种“多系列具体对象创建工作”的紧耦合？</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/AbstractFactory/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Builder" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/Builder/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>在软件系统中，有时候面临着“一个复杂对象”的创建工作， 其通常由各个部分的子对象用一定的算法构成；由于需求的变化， 这个复杂对象的各个部分经常面临着剧烈的变化，但是将它们组合在一起 的算法却相对稳定；如何应对这种变化？如何提供一种“封装机制”来隔离复杂对象的各个部分的变化，从而保持系统中的“稳定构建算法不随需求的 改变而改变</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Builder/">Builder</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生成器模式/">生成器模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/Builder/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Adapter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/10/06/Adapter/" class="article-date">
+      <time datetime="2013-10-06T16:36:00.000Z" itemprop="datePublished">2013-10-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>在软件系统中，由于应用环境的变化，常常需要将“一些现存的对象”放在新的环境中应用，但是新环境要求的接口使这些现存对象所不满足的。如何应对这种“迁移的变化”？如何即能利用现有对象的良好实现，同时又能满足新的应用环境所要求的接口？</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/gof23/">设计模式</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/适配器模式/">适配器模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2013/10/06/Adapter/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+    
+
+     
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

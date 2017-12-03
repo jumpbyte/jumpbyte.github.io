@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="使用hexo的默认高亮插件总感觉支持的太少，代码高亮显示的不够细，下面我们来看下怎么把它替换为prettify高亮插件
+第一步：禁用默认高亮插件在hexo博客_config.yml中将highlight插件禁用
+highlight:
+  enable: false
+  line_number: false
+  auto_detect: false
+  tab_replace:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为hexo博客加入prettify高亮插件">
+<meta property="og:url" content="http://www.jumpbyte.cn/2016/07/02/use-and-install-prettify/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="使用hexo的默认高亮插件总感觉支持的太少，代码高亮显示的不够细，下面我们来看下怎么把它替换为prettify高亮插件
+第一步：禁用默认高亮插件在hexo博客_config.yml中将highlight插件禁用
+highlight:
+  enable: false
+  line_number: false
+  auto_detect: false
+  tab_replace:">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5h1gmp2m7j20k709bmzm.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/7462786bgw1f5gnoo6byij210x0g5wi3.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5gnphrzndj21es09kwj8.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5h231d2yjj20i60ccdhb.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5h4twn7n2j210k0mitc3.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5i9ibsy1uj20cd0jegp9.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5ia1mb52vj20bm01ka9y.jpg">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为hexo博客加入prettify高亮插件">
+<meta name="twitter:description" content="使用hexo的默认高亮插件总感觉支持的太少，代码高亮显示的不够细，下面我们来看下怎么把它替换为prettify高亮插件
+第一步：禁用默认高亮插件在hexo博客_config.yml中将highlight插件禁用
+highlight:
+  enable: false
+  line_number: false
+  auto_detect: false
+  tab_replace:">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/7462786bgw1f5h1gmp2m7j20k709bmzm.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>为hexo博客加入prettify高亮插件 | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-use-and-install-prettify" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/02/use-and-install-prettify/" class="article-date">
+      <time datetime="2016-07-02T21:14:37.000Z" itemprop="datePublished">2016-07-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为hexo博客加入prettify高亮插件
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/toss-record/">折腾记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prettify/">prettify</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>使用hexo的默认高亮插件总感觉支持的太少，代码高亮显示的不够细，下面我们来看下怎么把它替换为prettify高亮插件</p>
+<h2 id="第一步：禁用默认高亮插件"><a href="#第一步：禁用默认高亮插件" class="headerlink" title="第一步：禁用默认高亮插件"></a>第一步：禁用默认高亮插件</h2><p>在hexo博客_config.yml中将highlight插件禁用</p>
+<pre><code>highlight:
+  enable: false
+  line_number: false
+  auto_detect: false
+  tab_replace:
+</code></pre><a id="more"></a>
+<h2 id="第二步：引用prettify插件"><a href="#第二步：引用prettify插件" class="headerlink" title="第二步：引用prettify插件"></a>第二步：引用prettify插件</h2><h3 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a><strong>下载插件</strong></h3><p>从github下载<a href="https://github.com/google/code-prettify" target="_blank" rel="external">prettify</a>源码，解压后将src目录重命名(如prettify)，然后拷贝至你的hexo博客的source目录，建议在博客source目录单独建立一个插件目录(plugins)存放，以后所有的插件都放置到此目录，这里我就是拷贝到source/plugins目录下,如图<strong>（注：必须放在source目录下面，否则生成静态文章的时候无法输出到public目录）</strong><br><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5h1gmp2m7j20k709bmzm.jpg" alt=""></p>
+<p>接着我们还要对hexo的_config.yml做如下配置</p>
+<pre><code class="yml">skip_render:
+    - &quot;plugins/**&quot;
+</code></pre>
+<p>这个配置就是要告诉hexo对plugins目录下的所有文件跳过解析渲染，因为测试时发现如果不配置，加载prettify的相关js会报脚本错误，猜测hexo渲染造成的编码问题</p>
+<h3 id="引用插件"><a href="#引用插件" class="headerlink" title="引用插件"></a><strong>引用插件</strong></h3><p>在yilia的主题下面找到<code>yilia\layout\_partial\head.ejs</code>和<code>yilia\layout\_partial\after-footer.ejs</code>两个文件，分别引入样式和脚本文件（如果你用的是其他主题，可参照对应）</p>
+<p>在head.ejs中引入样式</p>
+<pre><code class="js">.....省略代码.......
+&lt;!--prettify代码高亮主题css引入--&gt;
+&lt;link href=&quot;/plugins/prettify/prettify.css&quot; rel=&quot;stylesheet&quot;&gt;
+.....省略代码.......
+</code></pre>
+<p>在after-footer.ejs中引入脚本</p>
+<pre><code class="js">.....省略代码.......
+&lt;!--prettify代码高亮脚本引入--&gt;
+&lt;script src=&quot;/plugins/prettify/prettify.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(window).load(function(){
+$(&#39;pre&#39;).addClass(&#39;prettyprint linenums&#39;).attr(&#39;style&#39;, &#39;overflow:auto;&#39;);
+ prettyPrint();
+})
+&lt;/script&gt;
+.....省略代码.......
+</code></pre>
+<p><strong>注意：脚本文件引入注意一定要在jquery脚本之后</strong></p>
+<p><strong>启动生成浏览</strong></p>
+<p>此时我们用<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo server</code> 发布浏览，结果代码高亮怪怪的，如图:</p>
+<p><img src="http://ww4.sinaimg.cn/large/7462786bgw1f5gnoo6byij210x0g5wi3.jpg" alt=""></p>
+<p>此时F12我们定位此块代码样式发现，刚第一步禁用的highlight高亮插件的样式还是会加载</p>
+<p><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5gnphrzndj21es09kwj8.jpg" alt=""></p>
+<h2 id="第三步：对yilia主题调整修改"><a href="#第三步：对yilia主题调整修改" class="headerlink" title="第三步：对yilia主题调整修改"></a>第三步：对yilia主题调整修改</h2><p> 上一步高亮结果显示有问题，于是立马怀疑yilia主题没有对highlight配置项做开关控制，结果发现在<code>themes\yilia\source\css\style.styl</code>文件确实没有做开关设置，而是直接引入<br><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5h231d2yjj20i60ccdhb.jpg" alt=""></p>
+<p>所以，接下来要稍微做下调整</p>
+<ol>
+<li>把上面的红框标记的那一行注释掉</li>
+<li>仔细观察发现还有样式文件的影响，继续找到<code>themes\yilia\source\css\_partial\article.styl</code>文件先备份下，<br>然后将其中搜下所有pre,code 标签关联的样式删除之</li>
+<li><p>最后再在<code>themes\yilia\source\css\style.styl</code>文件中在加入下面几行调整样式</p>
+<pre><code class="ss">/*解决prettyify在yilia主题下面行号显示问题*/
+pre.prettyprint{
+ padding-left: 20px;
+}
+
+/*代码自动换行*/
+pre{
+   word-break: break-all;
+   word-wrap: break-word;
+ }
+</code></pre>
+</li>
+</ol>
+<h3 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a><strong>大功告成</strong></h3><p>总算不白折腾，重新hexo生成发布浏览，prettify就能正常高亮代码了<br><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5h4twn7n2j210k0mitc3.jpg" alt=""></p>
+<p>但默认主题样式还不够炫(niu)酷(bi),这里给大家提供n套<a href="https://github.com/jmblog/color-themes-for-google-code-prettify/blob/master/dist/themes.zip" target="_blank" rel="external">prettify主题</a>供大家下载,下载后解压，在themes目录下面有多套主题样式，如图：<br><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5i9ibsy1uj20cd0jegp9.jpg" alt=""></p>
+<p>这里面每套主题都对应一个未压缩版和压缩版，而每套主题的效果，可以<a href="https://jmblog.github.io/color-themes-for-google-code-prettify/" target="_blank" rel="external">点击此链接</a>查看，喜欢那套样式，就直接重命名为prettify替换原来的prettify.css应用即可</p>
+<h2 id="继续优化"><a href="#继续优化" class="headerlink" title="继续优化"></a>继续优化</h2><p>根据上述步骤，我们已经将默认高亮插件成功的替换成prettify高亮插件，但有两处不方便的地方</p>
+<ol>
+<li>prettify插件有很多高亮主题样式，如果以后我们想替换其他主题样式，没有提供可配置主题自动替换</li>
+<li>想换回默认高亮插件得手动还原回去，不灵活<br>基于上面的问题考虑，我们来通过加入几个配置项，使其能够做到灵活切换主题和插件</li>
+</ol>
+<h3 id="增加配置项"><a href="#增加配置项" class="headerlink" title="增加配置项"></a>增加配置项</h3><ol>
+<li><p>在hexo博客的根目录找到_config.yml,加入下面配置</p>
+<pre><code> #prettify 插件位置
+ # enable 启用和不启用
+ # theme 使用prettify高亮主题名称
+ prettify:
+   enable: true
+   theme: &quot;这里你可以定义上面下载的themes主题包里面样式文件名，不带.css后缀&quot;
+</code></pre></li>
+<li><p>在你安装的主题根目录下面找到_config.yml,加入下面配置</p>
+<pre><code> #highlight启用和禁用
+ highlight:
+   enable: false
+</code></pre></li>
+<li><p>将你上面下载的prettify主题包解压后拷贝到博客<code>source/plugins/</code>目录，如下：</p>
+<p><img src="http://ww2.sinaimg.cn/large/7462786bgw1f5ia1mb52vj20bm01ka9y.jpg" alt=""></p>
+</li>
+</ol>
+<h3 id="加入主题开关判断"><a href="#加入主题开关判断" class="headerlink" title="加入主题开关判断"></a>加入主题开关判断</h3><ol>
+<li>修改 themes\yilia\source\css_variables.styl 文件，在文件任意位置加入下面这行<pre><code> highlight = hexo-config(&quot;highlight.enable&quot;)
+</code></pre></li>
+<li>在themes\yilia\source\css\style.styl文件，加入开关判断<pre><code> if highlight{
+  @import &quot;_partial/highlight&quot;
+ }
+</code></pre></li>
+<li><p>分别对<code>yilia\layout\_partial\head.ejs</code>和<code>yilia\layout\_partial\after-footer.ejs</code>两个文件做调整</p>
+<p>head.ejs调整如下：</p>
+<pre><code>&lt;% if (config.prettify.enable){ %&gt;
+  &lt;!--prettify代码高亮主题css引入--&gt;
+  &lt;link href=&quot;/plugins/prettify/themes/&lt;%= config.prettify.theme %&gt;.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;% } %&gt;
+</code></pre><p>after-footer.ejs调整如下：</p>
+<pre><code>&lt;!--prettify代码高亮js引入--&gt;
+&lt;% if (config.prettify.enable){ %&gt;
+&lt;script src=&quot;/plugins/prettify/prettify.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(window).load(function(){
+$(&#39;pre&#39;).addClass(&#39;prettyprint linenums&#39;).attr(&#39;style&#39;, &#39;overflow:auto;&#39;);
+ prettyPrint();
+})
+&lt;/script&gt;
+&lt;%}%&gt;
+</code></pre><p>这里引用prettify的样式文件统一定位到/plugins/prettify/themes/下面，所以如果你用默认的prettify.css样式<br>只要要把默认样式也拷贝到/plugins/prettify/themes/目录下面即可</p>
+</li>
+</ol>
+<p>通过以上的配置，我们就可以灵活的切换prettify高亮主题了，并且通过配置可以来回切换高亮插件，只要你想要，就是这么任性！</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2016-07-02, 21:14:37</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/02/use-and-install-prettify/" title="为hexo博客加入prettify高亮插件">http://www.jumpbyte.cn/2016/07/02/use-and-install-prettify/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2016/07/02/use-and-install-prettify/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/07/17/gradle-usage/">
+                    gradle日常使用之Java插件
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/06/25/maven_suibi/">
+                    maven随笔纪录
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一步：禁用默认高亮插件"><span class="toc-number">1.</span> <span class="toc-text">第一步：禁用默认高亮插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二步：引用prettify插件"><span class="toc-number">2.</span> <span class="toc-text">第二步：引用prettify插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载插件"><span class="toc-number">2.1.</span> <span class="toc-text">下载插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用插件"><span class="toc-number">2.2.</span> <span class="toc-text">引用插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三步：对yilia主题调整修改"><span class="toc-number">3.</span> <span class="toc-text">第三步：对yilia主题调整修改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大功告成"><span class="toc-number">3.1.</span> <span class="toc-text">大功告成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继续优化"><span class="toc-number">4.</span> <span class="toc-text">继续优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#增加配置项"><span class="toc-number">4.1.</span> <span class="toc-text">增加配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加入主题开关判断"><span class="toc-number">4.2.</span> <span class="toc-text">加入主题开关判断</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"为hexo博客加入prettify高亮插件　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/17/gradle-usage/" title="上一篇: gradle日常使用之Java插件">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/06/25/maven_suibi/" title="下一篇: maven随笔纪录">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="JumpByte" />
+
+
+
+<meta name="description" content="简述接触和学习过linux的同学相比都知道linux命令的繁多和复杂，无论是linux初学者还是老司机，也不可能把所有linux的命令都记住，好在linux有一一些强大的帮助命令，让我们不用担心不熟悉或者暂时遗忘的命令的情况，下面我们来看怎么去正确的使用这些命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux命令拾遗(1)-whatis info man which whereis">
+<meta property="og:url" content="http://www.jumpbyte.cn/2016/08/07/linux命令拾遗-1/index.html">
+<meta property="og:site_name" content="JumpByte的博客">
+<meta property="og:description" content="简述接触和学习过linux的同学相比都知道linux命令的繁多和复杂，无论是linux初学者还是老司机，也不可能把所有linux的命令都记住，好在linux有一一些强大的帮助命令，让我们不用担心不熟悉或者暂时遗忘的命令的情况，下面我们来看怎么去正确的使用这些命令">
+<meta property="og:updated_time" content="2017-12-03T09:27:22.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux命令拾遗(1)-whatis info man which whereis">
+<meta name="twitter:description" content="简述接触和学习过linux的同学相比都知道linux命令的繁多和复杂，无论是linux初学者还是老司机，也不可能把所有linux的命令都记住，好在linux有一一些强大的帮助命令，让我们不用担心不熟悉或者暂时遗忘的命令的情况，下面我们来看怎么去正确的使用这些命令">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JumpByte的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>linux命令拾遗(1)-whatis info man which whereis | JumpByte的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+  <!--prettify代码高亮主题css引入-->
+  <link href="/plugins/prettify/themes/atelier-seaside-light.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">JumpByte</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/随笔">随笔</a></li>
+                        
+                            <li><a href="/tags">标签分类</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AbstractFactory/">AbstractFactory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bridge/">Bridge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CmdMarkdown/">CmdMarkdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Decorator/">Decorator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facade/">Facade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FactoryMethod/">FactoryMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flyweight/">Flyweight</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Interpreter/">Interpreter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prototype/">Prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful-Service/">RESTful Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TemplateMethod/">TemplateMethod</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven使用教程/">maven使用教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prettify/">prettify</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/享元模式/">享元模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例模式/">单例模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原创翻译/">原创翻译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/原型模式/">原型模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/外观模式/">外观模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抽象工厂模式/">抽象工厂模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/教程/">教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构建工具/">构建工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桥接模式/">桥接模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/模板方法/">模板方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生成器模式/">生成器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/示例/">示例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/组合模式/">组合模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰模式/">装饰模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解释器模式/">解释器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/适配器模式/">适配器模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高亮插件/">高亮插件</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="/jumpbyte.cn">jumpbyte</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/">cnblogs</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.csdn.net/">csdn</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://codepen.io/">codepen</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">JumpByte</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="http://tva4.sinaimg.cn/crop.154.494.1235.1235.180/7462786bjw8f4rmzsmb6kj216w1psdlj.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">JumpByte</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">物质、世界、时间、空间，只不过是人类的幻觉</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/随笔">随笔</a></li>
+                
+                    <li><a href="/tags">标签分类</a></li>
+                
+                    <li><a href="/about">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:yja886@163.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/1952610411" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/jumpbyte" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/zhi-liao-95-64" title="知乎"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/114704639" title="豆瓣"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-linux命令拾遗-1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/07/linux命令拾遗-1/" class="article-date">
+      <time datetime="2016-08-07T14:47:17.000Z" itemprop="datePublished">2016-08-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux命令拾遗(1)-whatis info man which whereis
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux命令/">linux命令</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>接触和学习过linux的同学相比都知道linux命令的繁多和复杂，无论是linux初学者还是老司机，也不可能把所有linux的命令都记住，好在linux有一一些强大的帮助命令，让我们不用担心不熟悉或者暂时遗忘的命令的情况，下面我们来看怎么去正确的使用这些命令<br><a id="more"></a></p>
+<blockquote>
+<ol>
+<li>在只记得部分关键字的时候，可以通过man -k 来搜索</li>
+<li>查看某个命令的简单功能描述，可以通过whatis</li>
+<li>查看某个命令更详细的说明可以用info 命令</li>
+<li>要查看某个命令的具体位置，可以使用which</li>
+<li>对于要查看某个命令的具体参数的含义及使用方法，可以借助强大的man命令</li>
+</ol>
+</blockquote>
+<h3 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h3><p>whatis命令是用于查询一个命令执行什么功能，并将查询结果打印到终端上</p>
+<blockquote>
+<p>whatis命令在用catman -w命令创建的数据库中查找command参数指定的命令、系统调用、库函数或特殊文件名。whatis命令显示手册部分的页眉行。然后可以发出man命令以获取附加的信息。whatis命令等同于使用man -f命令</p>
+</blockquote>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><pre><code>whatis 命令名称
+</code></pre><h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><pre><code>[root@centos etc]# whatis cp
+cp                   (1)  - copy files and directories
+[root@centos etc]# whatis ls
+ls                   (1)  - list directory contents
+[root@centos etc]# whatis chown
+chown                (1)  - change file owner and group
+[root@centos etc]# whatis rm
+rm                   (1)  - remove files or directories
+</code></pre><h3 id="info"><a href="#info" class="headerlink" title="info"></a>info</h3><p>查看某个命令更详细的说明</p>
+<blockquote>
+<p>就内容来说，info页面比man page编写得要更好、更容易理解，也更友好，但man page使用起来确实要更容易得多。一个man page只有一页，而info页面几乎总是将它们的内容组织成多个区段（称为节点），每个区段也可能包含子区段（称为子节点）。理解这个命令的窍门就是不仅要学习如何在单独的Info页面中浏览导航，还要学习如何在节点和子节点之间切换。可能刚开始会一时很难在info页面的节点之间移动和找到你要的东西，真是具有讽刺意味：原本以为对于新手来说，某个东西比man命令会更好些，但实际上学习和使用起来更困难。</p>
+</blockquote>
+<h4 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h4><pre><code>info [选项] [参数]
+</code></pre><h4 id="选项列举"><a href="#选项列举" class="headerlink" title="选项列举"></a>选项列举</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令选项</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-d</td>
+<td style="text-align:left">添加包含info格式帮助文档的目录</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td style="text-align:left">指定要读取的info格式的帮助文档</td>
+</tr>
+<tr>
+<td style="text-align:center">-n</td>
+<td style="text-align:left">指定首先访问的info帮助文件的节点</td>
+</tr>
+<tr>
+<td style="text-align:center">-o</td>
+<td style="text-align:left">输出被选择的节点内容到指定文件</td>
+</tr>
+</tbody>
+</table>
+<h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><pre><code>[root@centos etc]# info cp
+
+File: coreutils.info,  Node: cp invocation,  Next: dd invocation,  Up: Basic operations
+
+11.1 `cp&#39;: Copy files and directories
+=====================================
+`cp&#39; copies files (or, optionally, directories).  The copy is
+completely independent of the original.  You can either copy one file to
+another, or copy arbitrarily many files to a destination directory.
+Synopses:
+
+     cp [OPTION]... [-T] SOURCE DEST
+     cp [OPTION]... SOURCE... DIRECTORY
+     cp [OPTION]... -t DIRECTORY SOURCE...
+
+   * If two file names are given, `cp&#39; copies the first file to the
+     second.
+
+   * If the `--target-directory&#39; (`-t&#39;) option is given, or failing
+     that if the last file is a directory and the
+     `--no-target-directory&#39; (`-T&#39;) option is not given, `cp&#39; copies
+     each SOURCE file to the specified directory, using the SOURCEs&#39;
+     names.
+
+   Generally, files are written just as they are read.  For exceptions,
+see the `--sparse&#39; option below.
+省略...
+</code></pre><h4 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h4><p>在info命令执行后处于帮助文档显示状态时，可以使用如下快捷操作</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">?键</td>
+<td style="text-align:left">它就会显示info的常用快捷键。</td>
+</tr>
+<tr>
+<td style="text-align:center">N键</td>
+<td style="text-align:left">显示（相对于本节点的）下一节点的文档内容。</td>
+</tr>
+<tr>
+<td style="text-align:center">P键</td>
+<td style="text-align:left">显示（相对于本节点的）前一节点的文档内容。</td>
+</tr>
+<tr>
+<td style="text-align:center">U键</td>
+<td style="text-align:left">进入当前命令所在的主题。</td>
+</tr>
+<tr>
+<td style="text-align:center">M键</td>
+<td style="text-align:left">敲M键后输入命令的名称就可以查看该命令的帮助文档了。</td>
+</tr>
+<tr>
+<td style="text-align:center">G键</td>
+<td style="text-align:left">敲G键后输入主题名称，进入该主题。</td>
+</tr>
+<tr>
+<td style="text-align:center">L键</td>
+<td style="text-align:left">回到上一个访问的页面。</td>
+</tr>
+<tr>
+<td style="text-align:center">SPACE键</td>
+<td style="text-align:left">向前滚动一页。</td>
+</tr>
+<tr>
+<td style="text-align:center">BACKUP或DEL键</td>
+<td style="text-align:left">向后滚动一页。</td>
+</tr>
+<tr>
+<td style="text-align:center">Q</td>
+<td style="text-align:left">退出info。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="man"><a href="#man" class="headerlink" title="man"></a>man</h3><p>man命令是Linux下的帮助指令，通过man指令可以查看Linux中的指令帮助、配置文件帮助和编程帮助等信息</p>
+<h4 id="用法-2"><a href="#用法-2" class="headerlink" title="用法"></a>用法</h4><pre><code>man [选项] [参数]
+</code></pre><h4 id="选项列举-1"><a href="#选项列举-1" class="headerlink" title="选项列举"></a>选项列举</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令选项</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:left">在所有的man帮助手册中搜索；</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td style="text-align:left">等价于whatis指令，显示给定关键字的简短描述信息；</td>
+</tr>
+<tr>
+<td style="text-align:center">-P</td>
+<td style="text-align:left">指定内容时使用分页程序；</td>
+</tr>
+<tr>
+<td style="text-align:center">-M</td>
+<td style="text-align:left">指定man手册搜索的路径。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h4><pre><code class="shell">[root@centos etc]# man rm
+RM(1)                            User Commands                           RM(1)
+
+NAME
+       rm - remove files or directories
+
+SYNOPSIS
+       rm [OPTION]... FILE...
+
+DESCRIPTION
+       This manual page documents the GNU version of rm.  rm removes each specified file.  By default, it does not remove directories.
+....省略以下输出...
+</code></pre>
+<h3 id="which"><a href="#which" class="headerlink" title="which"></a>which</h3><p>which命令用于查找并显示给定命令的绝对路径，环境变量PATH中保存了查找命令时需要遍历的目录。which指令会在环境变量$PATH设置的目录里查找符合条件的文件。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令。</p>
+<h4 id="用法-3"><a href="#用法-3" class="headerlink" title="用法"></a>用法</h4><pre><code>which [选项] [参数]
+</code></pre><h4 id="选项列举-2"><a href="#选项列举-2" class="headerlink" title="选项列举"></a>选项列举</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令选项</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-n&lt;文件名长度&gt;</td>
+<td style="text-align:left">制定文件名长度，指定的长度必须大于或等于所有文件中最长的文件名；</td>
+</tr>
+<tr>
+<td style="text-align:center">-p&lt;文件名长度&gt;</td>
+<td style="text-align:left">与-n参数相同，但此处的&lt;文件名长度&gt;包含了文件的路径；</td>
+</tr>
+<tr>
+<td style="text-align:center">-w</td>
+<td style="text-align:left">指定输出时栏位的宽度；</td>
+</tr>
+<tr>
+<td style="text-align:center">-V</td>
+<td style="text-align:left">显示版本信息。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h4><pre><code>[root@centos etc]# which -V chown
+GNU which v2.19, Copyright (C) 1999 - 2008 Carlo Wood.
+GNU which comes with ABSOLUTELY NO WARRANTY;
+This program is free software; your freedom to use, change
+and distribute this program is protected by the GPL.
+[root@centos etc]# which adduser
+/usr/sbin/adduser
+[root@centos etc]# which pwd
+/bin/pwd
+</code></pre><h3 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h3><p>whereis命令用来定位指令的二进制程序、源代码文件和man手册页等相关文件的路径。whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息。</p>
+<blockquote>
+<p>和find相比，whereis查找的速度非常快，这是因为linux系统会将 系统内的所有文件都记录在一个数据库文件中，当使用whereis和下面即将介绍的locate时，会从数据库中查找数据，而不是像find命令那样，通 过遍历硬盘来查找，效率自然会很高。 但是该数据库文件并不是实时更新，默认情况下时一星期更新一次，因此，我们在用whereis和locate 查找文件时，有时会找到已经被删除的数据，或者刚刚建立文件，却无法查找到，原因就是因为数据库文件没有被更新。</p>
+</blockquote>
+<h4 id="用法-4"><a href="#用法-4" class="headerlink" title="用法"></a>用法</h4><pre><code>whereis [选项] [参数]
+</code></pre><h4 id="选项列举-3"><a href="#选项列举-3" class="headerlink" title="选项列举"></a>选项列举</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令选项</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-b</td>
+<td style="text-align:left">只查找二进制文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-B&lt;目录&gt;</td>
+<td style="text-align:left">只在设置的目录下查找二进制文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td style="text-align:left">不显示文件名前的路径名称；</td>
+</tr>
+<tr>
+<td style="text-align:center">-m</td>
+<td style="text-align:left">只查找说明文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-M&lt;目录&gt;</td>
+<td style="text-align:left">只在设置的目录下查找说明文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-s</td>
+<td style="text-align:left">只查找原始代码文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-S&lt;目录&gt;只在设置的目录下查找原始代码文件；</td>
+</tr>
+<tr>
+<td style="text-align:center">-u</td>
+<td style="text-align:left">查找不包含指定类型的文件。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h4><pre><code>[root@centos etc]# which pwd
+/bin/pwd
+[root@centos etc]# whereis pwd
+pwd: /bin/pwd /usr/include/pwd.h /usr/share/man/mann/pwd.n.gz /usr/share/man/man1/pwd.1.gz
+[root@centos etc]# whereis -b  pwd
+pwd: /bin/pwd /usr/include/pwd.h
+[root@centos etc]# whereis -s  pwd
+pwd:
+</code></pre><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li>linux命令手册大全：<a href="http://man.linuxde.net/" title="linux命令手册大全" target="_blank" rel="external">http://man.linuxde.net/</a></li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">JumpByte</a></p>
+        <p><span>发布时间:</span>2016-08-07, 14:47:17</p>
+        <p><span>最后更新:</span>2017-12-03, 09:27:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/07/linux命令拾遗-1/" title="linux命令拾遗(1)-whatis info man which whereis">http://www.jumpbyte.cn/2016/08/07/linux命令拾遗-1/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.jumpbyte.cn/2016/08/07/linux命令拾遗-1/　　作者: JumpByte" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/08/13/zookeeper-install-deploy/">
+                    在windows,linux下搭建zookeeper集群环境
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/07/17/gradle-usage/">
+                    gradle日常使用之Java插件
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简述"><span class="toc-number">1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#whatis"><span class="toc-number">2.</span> <span class="toc-text">whatis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用法"><span class="toc-number">2.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用"><span class="toc-number">2.2.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info"><span class="toc-number">3.</span> <span class="toc-text">info</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用法-1"><span class="toc-number">3.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选项列举"><span class="toc-number">3.2.</span> <span class="toc-text">选项列举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-1"><span class="toc-number">3.3.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#快捷键"><span class="toc-number">3.4.</span> <span class="toc-text">快捷键</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#man"><span class="toc-number">4.</span> <span class="toc-text">man</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用法-2"><span class="toc-number">4.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选项列举-1"><span class="toc-number">4.2.</span> <span class="toc-text">选项列举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-2"><span class="toc-number">4.3.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#which"><span class="toc-number">5.</span> <span class="toc-text">which</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用法-3"><span class="toc-number">5.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选项列举-2"><span class="toc-number">5.2.</span> <span class="toc-text">选项列举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-3"><span class="toc-number">5.3.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#whereis"><span class="toc-number">6.</span> <span class="toc-text">whereis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用法-4"><span class="toc-number">6.1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#选项列举-3"><span class="toc-number">6.2.</span> <span class="toc-text">选项列举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-4"><span class="toc-number">6.3.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"linux命令拾遗(1)-whatis info man which whereis　| JumpByte的博客　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div id="comments" >
+    <div id="gitment_container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <style>
+    .gitment-comment-header.div{
+        background-color: transparent;
+    }
+    </style>
+    <script>
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+        }
+        var gitment = new Gitment({
+            owner: "jumpbyte",
+            repo: "blog-comments",
+            oauth: {
+                client_id: "0a066448008fa3f81f75",
+                client_secret: "4206bee5f43c8b126e34fa74a6fe92665ebd0a48",
+            },
+            theme: myTheme
+        })
+        gitment.render('gitment_container')
+    </script>
+    
+    <aside class="comment-bar">
+        <a href="javascript:void(0);">
+            <i class="fa fa-commenting-o animated infinite pulse"></i>
+            <i class="fa fa-spinner fa-pulse"></i>
+            <span class="count-comment"></span>
+        </a>
+    </aside>
+    <script>
+        var $commentBar = $("#comments aside.comment-bar");
+        var load$hide = function(){
+            $commentBar.find("a > i").toggle();
+            loadComment();
+            $commentBar.fadeOut(800);
+        }
+        $commentBar.click(function(){
+            load$hide();
+        })
+        $commentBar.children("a").hover(function(){
+            load$hide();
+        })
+        if (window.location.hash === "#comments") {
+            load$hide();
+        }
+    </script>
+
+</div>
+  
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/08/13/zookeeper-install-deploy/" title="上一篇: 在windows,linux下搭建zookeeper集群环境">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/07/17/gradle-usage/" title="下一篇: gradle日常使用之Java插件">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/linux-command-online-practice/">linux线上命令实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/enriching-restful-services-swagger/">使用Swagger插件丰富增强RESTful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/">Spring Boot+SpringMVC4实现单文件多文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/spring-boot-spring-mvc/">基于Spring Boot运行Spring MVC 应用程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/zookeeper-install-deploy/">在windows,linux下搭建zookeeper集群环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/linux命令拾遗-1/">linux命令拾遗(1)-whatis info man which whereis</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/17/gradle-usage/">gradle日常使用之Java插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/use-and-install-prettify/">为hexo博客加入prettify高亮插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/maven_suibi/">maven随笔纪录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/md-help/">markdown语法手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/howto-use-markdownedit/">如何使用Cmd Markdown 编写MarkDown文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/04/createquery-vs-createsqlsquery/">Hibernate Session中createQuery()和createSQLSquery()方法的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/11/26/jquery实现页面置顶功能/">jquery实现页面置顶功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/bridge/">面向对象设计模式之Bridge桥接模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/TemplateMethod/">面向对象设计模式之TemplateMethod模板方法（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Singleton/">面向对象设计模式之Singleton单例模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Prototype/">面向对象设计模式之Prototype原型模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/AbstractFactory/">面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Builder/">面向对象设计模式之Builder生成器模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Adapter/">面向对象设计模式之Adapter适配器模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/FactoryMethod/">面向对象设计模式之FactoryMethod工厂方法模式（创建型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Facade/">面向对象设计模式之Facade外观模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Decorator/">面向对象设计模式之Decorator装饰模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Composite/">面向对象设计模式之Composite组合模式（结构型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Interpreter/">面向对象设计模式之Interpreter解释器模式（行为型）</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/06/Flyweight/">面向对象设计模式之Flyweight享元模式（结构型）</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 JumpByte
+                Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<!--prettify代码高亮js引入-->
+
+<script src="/plugins/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+ prettyPrint();
+})
+</script>
+
+<!--自动推送给百度搜索引擎页面内容-->
+<script type="text/javascript">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<!--百度搜索框-->
+<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=4471531791733155640' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
+
+  </div>
+</body>
+</html>

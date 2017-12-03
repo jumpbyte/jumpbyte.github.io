@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/09/03/enriching-restful-services-swagger/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>使用Swagger插件丰富增强RESTful服务</title>
+        <pubTime>2016-09-03T14:04:44.000Z</pubTime>
+        
+        <tag>Swagger</tag>
+         
+        <tag>RESTful Service</tag>
+         
+        <tag>原创翻译</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="http://www.jumpbyte.cn/categories/essay/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/08/13/zookeeper-install-deploy/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>在windows,linux下搭建zookeeper集群环境</title>
+        <pubTime>2016-08-13T17:56:29.000Z</pubTime>
+        
+        <tag>zookeeper</tag>
+         
+        <tag>教程</tag>
+         
+        <tag>环境搭建</tag>
+         
+         
+           
+             
+              <breadCrumb title="安装部署" url="http://www.jumpbyte.cn/categories/%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/07/02/use-and-install-prettify/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>为hexo博客加入prettify高亮插件</title>
+        <pubTime>2016-07-02T21:14:37.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+        <tag>prettify</tag>
+         
+        <tag>高亮插件</tag>
+         
+         
+           
+             
+              <breadCrumb title="折腾记" url="http://www.jumpbyte.cn/categories/toss-record/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/08/20/spring-boot-spring-mvc/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>基于Spring Boot运行Spring MVC 应用程序</title>
+        <pubTime>2016-08-20T11:52:31.000Z</pubTime>
+        
+        <tag>原创翻译</tag>
+         
+        <tag>SpringBoot</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="SpringBoot" url="http://www.jumpbyte.cn/categories/SpringBoot/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/09/02/spring-4-mvc-single-multiple-file-upload-example-with-springboot/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Boot+SpringMVC4实现单文件多文件上传</title>
+        <pubTime>2016-09-02T17:33:38.000Z</pubTime>
+        
+        <tag>java</tag>
+         
+        <tag>原创翻译</tag>
+         
+        <tag>Spring Boot</tag>
+         
+        <tag>文件上传</tag>
+         
+        <tag>示例</tag>
+         
+         
+           
+             
+              <breadCrumb title="SpringBoot" url="http://www.jumpbyte.cn/categories/SpringBoot/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Flyweight/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Flyweight享元模式（结构型）</title>
+        <pubTime>2013-10-06T15:54:00.000Z</pubTime>
+        
+        <tag>享元模式</tag>
+         
+        <tag>Flyweight</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Interpreter/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Interpreter解释器模式（行为型）</title>
+        <pubTime>2013-10-06T16:17:00.000Z</pubTime>
+        
+        <tag>解释器模式</tag>
+         
+        <tag>Interpreter</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Prototype/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Prototype原型模式（创建型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Prototype</tag>
+         
+        <tag>原型模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Singleton/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Singleton单例模式（创建型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Singleton</tag>
+         
+        <tag>单例模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/TemplateMethod/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之TemplateMethod模板方法（行为型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>模板方法</tag>
+         
+        <tag>TemplateMethod</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/bridge/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Bridge桥接模式（结构型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Bridge</tag>
+         
+        <tag>桥接模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2014/06/04/createquery-vs-createsqlsquery/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>Hibernate Session中createQuery()和createSQLSquery()方法的区别</title>
+        <pubTime>2014-06-04T18:37:29.000Z</pubTime>
+        
+        <tag>hibernate</tag>
+         
+        <tag>java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hibernate" url="http://www.jumpbyte.cn/categories/Hibernate/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/06/19/md-help/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>markdown语法手册</title>
+        <pubTime>2016-06-19T09:31:15.000Z</pubTime>
+        
+        <tag>markdown</tag>
+         
+        <tag>markdown语法</tag>
+         
+         
+           
+             
+              <breadCrumb title="markdown" url="http://www.jumpbyte.cn/categories/markdown/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/07/17/gradle-usage/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>gradle日常使用之Java插件</title>
+        <pubTime>2016-07-17T00:34:58.000Z</pubTime>
+        
+        <tag>gradle</tag>
+         
+        <tag>构建工具</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jumpbyte.cn/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/06/19/howto-use-markdownedit/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>如何使用Cmd Markdown 编写MarkDown文档</title>
+        <pubTime>2016-06-19T08:25:26.000Z</pubTime>
+        
+        <tag>CmdMarkdown</tag>
+         
+        <tag>markdown</tag>
+         
+        <tag>test</tag>
+         
+         
+           
+             
+              <breadCrumb title="markdown" url="http://www.jumpbyte.cn/categories/markdown/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/11/26/jquery%E5%AE%9E%E7%8E%B0%E9%A1%B5%E9%9D%A2%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>jquery实现页面置顶功能</title>
+        <pubTime>2013-11-26T09:14:00.000Z</pubTime>
+        
+        <tag>js</tag>
+         
+         
+           
+             
+              <breadCrumb title="代码片段" url="http://www.jumpbyte.cn/categories/code-block-list/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2017/08/10/linux-command-online-practice/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>linux线上命令实战演练</title>
+        <pubTime>2017-08-10T10:34:58.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>shell</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://www.jumpbyte.cn/categories/linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/08/07/linux%E5%91%BD%E4%BB%A4%E6%8B%BE%E9%81%97-1/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>linux命令拾遗(1)-whatis info man which whereis</title>
+        <pubTime>2016-08-07T14:47:17.000Z</pubTime>
+        
+        <tag>linux</tag>
+         
+        <tag>linux命令</tag>
+         
+         
+           
+             
+              <breadCrumb title="linux" url="http://www.jumpbyte.cn/categories/linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2016/06/25/maven_suibi/</loc>
+    <lastmod>2017-12-03T09:27:22.843Z</lastmod>
+    <data>
+        <display>
+        <title>maven随笔纪录</title>
+        <pubTime>2016-06-25T11:41:41.000Z</pubTime>
+        
+        <tag>maven</tag>
+         
+        <tag>随笔</tag>
+         
+        <tag>maven使用教程</tag>
+         
+         
+           
+             
+              <breadCrumb title="知识整理" url="http://www.jumpbyte.cn/categories/cleared-knowledge/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Adapter/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Adapter适配器模式（结构型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Adapter</tag>
+         
+        <tag>适配器模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/FactoryMethod/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之FactoryMethod工厂方法模式（创建型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>FactoryMethod</tag>
+         
+        <tag>工厂方法模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Facade/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Facade外观模式（结构型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Facade</tag>
+         
+        <tag>外观模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Decorator/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Decorator装饰模式（结构型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Decorator</tag>
+         
+        <tag>装饰模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Composite/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Composite组合模式（结构型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Decorator</tag>
+         
+        <tag>组合模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/Builder/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之Builder生成器模式（创建型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>Builder</tag>
+         
+        <tag>生成器模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jumpbyte.cn/2013/10/06/AbstractFactory/</loc>
+    <lastmod>2017-12-03T09:27:22.839Z</lastmod>
+    <data>
+        <display>
+        <title>面向对象设计模式之AbstractFactory抽象工厂模式（创建型）</title>
+        <pubTime>2013-10-06T16:36:00.000Z</pubTime>
+        
+        <tag>AbstractFactory</tag>
+         
+        <tag>抽象工厂模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://www.jumpbyte.cn/categories/gof23/"/>
+          
+        </display>
+    </data>
+    </url>
+
+</urlset>
